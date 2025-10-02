@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Becas Universitarias</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Header -->
+  <header class="bg-blue-900 text-white p-6">
+    <h1 class="text-3xl font-bold">Portal de Becas</h1>
+    <p class="text-lg">Solicita tu beca en línea</p>
+  </header>
+
+  <!-- Formulario -->
+  <section class="p-8">
+    <h2 class="text-2xl font-bold mb-4">Solicitud de Beca</h2>
+    <form action="/solicitar" method="POST" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 space-y-4">
+      <label class="block">
+        Nombre completo:
+        <input type="text" name="nombre" class="w-full border p-2 rounded" required>
+      </label>
+      <label class="block">
+        Matrícula:
+        <input type="text" name="matricula" class="w-full border p-2 rounded" required>
+      </label>
+      <label class="block">
+        Correo electrónico:
+        <input type="email" name="correo" class="w-full border p-2 rounded" required>
+      </label>
+      <label class="block">
+        Subir documentos (PDF):
+        <input type="file" name="documento" accept=".pdf" class="w-full border p-2 rounded" required>
+      </label>
+      <button class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800">Enviar solicitud</button>
+    </form>
+  </section>
+
+</body>
+</html>
