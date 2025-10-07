@@ -1,132 +1,43 @@
-/* === Estilos generales === */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  background-color: #f8f9fa;
-  color: #333;
-}
 
-header {
-  background-color: #00264d; /* Azul BUAP */
-  color: white;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap; /* Permite que se acomode en pantallas pequeñas */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
 
-.logo {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.logo-img {
-  height: 50px;
-  margin-right: 15px;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 0;
-}
-
-nav ul li {
-  margin-left: 20px;
-}
-
-nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s;
-}
-
-nav ul li a:hover {
-  color: #ffcc00; /* Dorado */
-}
-
-/* === Carrusel === */
-.carousel {
-  position: relative;
-  max-width: 100%;
-  overflow: hidden;
-  height: 450px;
-}
-
-.slides img {
+/* === oscurecer imagenes de fondo de carrusel === */
+.carousel-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 450px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.carousel-caption h2, 
+.carousel-caption p {
+  color: #fff;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+/* === transiciones suaves === */
+.carousel-item {
+  transition: opacity 1s ease-in-out;
+}
+
+.carousel-item img {
   object-fit: cover;
-  display: none;
+  height: 600px; /* ajusta según tu diseño */
 }
 
-.slides img.active {
-  display: block;
-  animation: fade 1s ease-in-out;
+@media (max-width: 768px) {
+  .carousel-item img {
+    height: 300px;
+  }
 }
 
-@keyframes fade {
-  from {opacity: 0.4;}
-  to {opacity: 1;}
+/* === margen de carrusel === */
+body {
+  padding-top: 70px; /* evita que el carrusel quede debajo del navbar */
 }
 
-/* Botones de navegación */
-.prev, .next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0,0,0,0.5);
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 24px;
-  border-radius: 50%;
-  transition: background 0.3s;
-  z-index: 10;
-}
-
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
-}
-
-.prev { left: 20px; }
-.next { right: 20px; }
-
-/* Indicadores */
-.indicators {
-  position: absolute;
-  bottom: 15px;
-  width: 100%;
-  text-align: center;
-}
-
-.dot {
-  height: 12px;
-  width: 12px;
-  margin: 0 5px;
-  background-color: rgba(255,255,255,0.6);
-  border-radius: 50%;
-  display: inline-block;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.dot.active,
-.dot:hover {
-  background-color: #ffcc00;
-}
 
 /* === Sección hero === */
 .hero {
@@ -264,6 +175,8 @@ footer {
     padding: 10px 20px;
     font-size: 0.9rem;
   }
+
+
 
   footer {
     font-size: 0.8rem;
