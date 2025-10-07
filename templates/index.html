@@ -4,21 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal de Becas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <!-- Bootstrap CSS -->
   <link 
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
     rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 </head>
 <body>
 
 <!-- Barra de navegación -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm fixed-top">
   <div class="container">
-    <!-- Logo o nombre -->
-    <a class="navbar-brand fw-bold" href="#">Portal de Becas</a>
+    <!-- Logo con texto -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="45" height="45" class="me-2">
+      <span class="fw-bold">Portal de Becas</span>
+    </a>
 
-    <!-- Botón para colapsar menú en móvil -->
+    <!-- Botón de menú móvil -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -27,25 +33,26 @@
     <!-- Enlaces -->
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#convocatorias">Convocatorias</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#requisitos">Requisitos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#registro">Registro</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#contacto">Contacto</a>
-        </li>
+        <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="#convocatorias">Convocatorias</a></li>
+        <li class="nav-item"><a class="nav-link" href="#requisitos">Requisitos</a></li>
+        <li class="nav-item"><a class="nav-link" href="#registro">Registro</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
       </ul>
     </div>
   </div>
 </nav>
+
+<script>
+  window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>
 
 <!-- === Carrusel Principal === -->
 <div id="carouselPrincipal" class="carousel slide" data-bs-ride="carousel">
@@ -124,6 +131,53 @@
     });
   });
 </script>
+
+<!-- Sección: Pasos para solicitar una beca -->
+<section class="py-5 bg-light" id="pasos">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold text-primary">Pasos para Solicitar una Beca</h2>
+    <div class="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-4 text-center">
+
+      <!-- Paso 1 -->
+      <div class="col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary bg-gradient text-white fs-2 mb-3 rounded-circle" style="width:70px; height:70px;">
+          <i class="bi bi-file-earmark-text"></i>
+        </div>
+        <h4 class="fw-semibold">1. Revisa los Requisitos</h4>
+        <p class="text-muted">Consulta los criterios necesarios para postularte a la beca y asegúrate de cumplirlos antes de iniciar el registro.</p>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary bg-gradient text-white fs-2 mb-3 rounded-circle" style="width:70px; height:70px;">
+          <i class="bi bi-pencil-square"></i>
+        </div>
+        <h4 class="fw-semibold">2. Llena el Formulario</h4>
+        <p class="text-muted">Completa tus datos en línea y adjunta los documentos solicitados en formato PDF.</p>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary bg-gradient text-white fs-2 mb-3 rounded-circle" style="width:70px; height:70px;">
+          <i class="bi bi-check-circle"></i>
+        </div>
+        <h4 class="fw-semibold">3. Valida tu Expediente</h4>
+        <p class="text-muted">Revisa que todos tus documentos estén correctos y espera la validación del comité de becas.</p>
+      </div>
+
+      <!-- Paso 4 -->
+      <div class="col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary bg-gradient text-white fs-2 mb-3 rounded-circle" style="width:70px; height:70px;">
+          <i class="bi bi-graph-up-arrow"></i>
+        </div>
+        <h4 class="fw-semibold">4. Da Seguimiento</h4>
+        <p class="text-muted">Consulta el estatus de tu solicitud y recibe notificaciones sobre los resultados o documentación adicional.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
 
 <!-- === Sección de Convocatorias Activas === -->

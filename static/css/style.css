@@ -1,3 +1,80 @@
+:root {
+  --color-primario: #003366;
+  --color-secundario: #0056b3;
+  --color-acento: #fcbf49;
+  --color-fondo: #f8f9fa;
+  --color-texto: #212529;
+}
+
+/* Estilo base del cuerpo */
+body {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: "Poppins", sans-serif;
+  padding-top: 70px; /* espacio para el navbar */
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--color-primario) !important;
+}
+
+.navbar-brand span {
+  color: white;
+}
+
+.nav-link {
+  color: #f0f0f0 !important;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  color: var(--color-acento) !important;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: var(--color-secundario);
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primario);
+}
+
+/* Tarjetas de convocatorias */
+.card {
+  border: none;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-title {
+  color: var(--color-primario);
+  font-weight: 600;
+}
+
+
+/* === barra de navegación === */
+.navbar-brand img {
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.navbar {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Efecto al hacer scroll (más compacto) */
+.navbar.scrolled {
+  background-color: #003f7f !important;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
 
 
 /* === oscurecer imagenes de fondo de carrusel === */
@@ -174,6 +251,19 @@ footer {
   .hero .btn {
     padding: 10px 20px;
     font-size: 0.9rem;
+  }
+
+    #pasos h2 {
+    color: var(--color-primario);
+  }
+
+  .feature-icon {
+    transition: transform 0.3s ease-in-out, background-color 0.3s;
+  }
+
+  .feature-icon:hover {
+    transform: scale(1.1);
+    background-color: var(--color-acento);
   }
 
 
