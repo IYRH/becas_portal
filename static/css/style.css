@@ -13,12 +13,14 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap; /* Permite que se acomode en pantallas pequeñas */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .logo {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .logo-img {
@@ -34,6 +36,7 @@ header h1 {
 nav ul {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
   margin: 0;
   padding: 0;
 }
@@ -91,6 +94,7 @@ nav ul li a:hover {
   font-size: 24px;
   border-radius: 50%;
   transition: background 0.3s;
+  z-index: 10;
 }
 
 .prev:hover, .next:hover {
@@ -170,3 +174,98 @@ footer {
   font-size: 0.9rem;
 }
 
+/* === 🔹 Diseño Responsive === */
+
+/* Pantallas medianas (tablets) */
+@media (max-width: 900px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav ul {
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  nav ul li {
+    margin: 8px 10px;
+  }
+
+  .carousel {
+    height: 350px;
+  }
+
+  .slides img {
+    height: 350px;
+  }
+
+  .hero {
+    padding: 3rem 1rem;
+  }
+
+  .hero h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Pantallas pequeñas (celulares) */
+@media (max-width: 600px) {
+  header {
+    padding: 1rem;
+  }
+
+  .logo {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo-img {
+    height: 40px;
+    margin: 0 0 10px 0;
+  }
+
+  nav ul {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  nav ul li {
+    margin: 5px 0;
+  }
+
+  .carousel {
+    height: 250px;
+  }
+
+  .slides img {
+    height: 250px;
+  }
+
+  .prev, .next {
+    font-size: 18px;
+    padding: 8px 12px;
+  }
+
+  .hero {
+    padding: 2rem 1rem;
+  }
+
+  .hero h2 {
+    font-size: 1.6rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .hero .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  footer {
+    font-size: 0.8rem;
+  }
+}
