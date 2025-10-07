@@ -3,40 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Becas Universitarias</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Portal de Becas</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="bg-gray-100">
-
-  <!-- Header -->
-  <header class="bg-blue-900 text-white p-6">
-    <h1 class="text-3xl font-bold">Portal de Becas</h1>
-    <p class="text-lg">Solicita tu beca en línea</p>
+<body>
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="logo-img">
+      <h1>Portal de Becas</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Convocatorias</a></li>
+        <li><a href="#">Requisitos</a></li>
+        <li><a href="#">Registro</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <!-- Formulario -->
-  <section class="p-8">
-    <h2 class="text-2xl font-bold mb-4">Solicitud de Beca</h2>
-    <form action="/solicitar" method="POST" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 space-y-4">
-      <label class="block">
-        Nombre completo:
-        <input type="text" name="nombre" class="w-full border p-2 rounded" required>
-      </label>
-      <label class="block">
-        Matrícula:
-        <input type="text" name="matricula" class="w-full border p-2 rounded" required>
-      </label>
-      <label class="block">
-        Correo electrónico:
-        <input type="email" name="correo" class="w-full border p-2 rounded" required>
-      </label>
-      <label class="block">
-        Subir documentos (PDF):
-        <input type="file" name="documento" accept=".pdf" class="w-full border p-2 rounded" required>
-      </label>
-      <button class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800">Enviar solicitud</button>
-    </form>
+  <!-- Carrusel -->
+  <section class="carousel">
+    <div class="slides">
+      <img src="{{ url_for('static', filename='img/beca1.jpg') }}" alt="Beca 1">
+      <img src="{{ url_for('static', filename='img/beca2.jpg') }}" alt="Beca 2">
+      <img src="{{ url_for('static', filename='img/beca3.jpg') }}" alt="Beca 3">
+      <img src="{{ url_for('static', filename='img/beca4.jpg') }}" alt="Beca 4">
+    </div>
+
+    <div class="indicators">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <button class="prev">&#10094;</button>
+    <button class="next">&#10095;</button>
   </section>
 
+  <!-- Sección hero -->
+  <section class="hero">
+    <h2>Bienvenido al Portal de Becas</h2>
+    <p>Consulta convocatorias, requisitos y registra tu solicitud fácilmente.</p>
+    <a href="#" class="btn">Solicitar ahora</a>
+  </section>
+
+  <footer>
+    <p>© 2025 Portal de Becas - Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
