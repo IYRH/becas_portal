@@ -54,83 +54,22 @@
   });
 </script>
 
-<!-- === Carrusel Principal === -->
-<div id="carouselPrincipal" class="carousel slide" data-bs-ride="carousel">
-  
-  <!-- Indicadores -->
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselPrincipal" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselPrincipal" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselPrincipal" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    <button type="button" data-bs-target="#carouselPrincipal" data-bs-slide-to="3" aria-label="Slide 4"></button>
-  </div>
-
-  <!-- Imágenes -->
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="/static/images/banner1.jpg" class="d-block w-100" alt="Convocatoria 1">
-      <div class="carousel-caption d-none d-md-block">
-        <h2 class="fw-bold">Bienvenido al Portal de Becas</h2>
-        <p>Consulta y postúlate a las becas disponibles.</p>
-      </div>
-    </div>
-
-    <div class="carousel-item">
-      <img src="/static/images/banner2.jpg" class="d-block w-100" alt="Convocatoria 2">
-      <div class="carousel-caption d-none d-md-block">
-        <h2 class="fw-bold">Becas de Excelencia</h2>
-        <p>Reconocemos tu esfuerzo académico.</p>
-      </div>
-    </div>
-
-    <div class="carousel-item">
-      <img src="/static/images/banner3.jpg" class="d-block w-100" alt="Convocatoria 3">
-      <div class="carousel-caption d-none d-md-block">
-        <h2 class="fw-bold">Apoyos Alimenticios y de Transporte</h2>
-        <p>Porque tu bienestar también importa.</p>
-      </div>
-    </div>
-
-    <div class="carousel-item">
-      <img src="/static/images/banner4.jpg" class="d-block w-100" alt="Convocatoria 4">
-      <div class="carousel-caption d-none d-md-block">
-        <h2 class="fw-bold">Convocatorias Abiertas</h2>
-        <p>Consulta los requisitos y fechas límite.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Controles -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselPrincipal" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Anterior</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselPrincipal" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Siguiente</span>
-  </button>
-</div>
-
-<script>
-  // Espera a que la página cargue completamente
-  document.addEventListener("DOMContentLoaded", function () {
-    const carouselElement = document.querySelector("#carouselPrincipal");
-    const carousel = new bootstrap.Carousel(carouselElement, {
-      interval: 4000,  // tiempo entre imágenes (ms)
-      ride: 'carousel' // inicia automáticamente
-    });
-
-    // Detiene el carrusel al pasar el mouse
-    carouselElement.addEventListener("mouseenter", () => {
-      carousel.pause();
-    });
-
-    // Reanuda cuando el mouse sale
-    carouselElement.addEventListener("mouseleave", () => {
-      carousel.cycle();
-    });
-  });
-</script>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Sistema de Gestión de Becas Educativas</h1>
+            <p>Plataforma segura y transparente para solicitar, gestionar y hacer seguimiento de tus becas educativas</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#" class="btn btn-light btn-custom">🎓 Solicitar Beca</a>
+                <a href="#" class="btn btn-primary btn-custom">🔍 Consultar Estado</a>
+            </div>
+            <div class="mt-4 d-flex justify-content-center gap-4">
+                <span>🔒 Seguro</span>
+                <span>✅ Confiable</span>
+                <span>💡 Transparente</span>
+            </div>
+        </div>
+    </section>
 
 <!-- Sección: Pasos para solicitar una beca -->
 <section class="py-5 bg-light" id="pasos">
@@ -275,15 +214,6 @@
     </div>
   </div>
 </section>
-
-
-
-  <!-- Sección hero -->
-  <section class="hero">
-    <h2>Bienvenido al Portal de Becas</h2>
-    <p>Consulta convocatorias, requisitos y registra tu solicitud fácilmente.</p>
-    <a href="#" class="btn">Solicitar ahora</a>
-  </section>
 
   <footer>
     <p>© 2025 Portal de Becas - Todos los derechos reservados.</p>
