@@ -34,4 +34,4 @@ def crear_base_datos():
 
     conexion.commit()
     conexion.close()
-    print("✅ Base de datos lista.")
+    print(" Base de datos lista.")

@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 from database.db_setup import crear_base_datos
-import sqlite3
+from routes.main_routes import main_bp
+from routes.admin_routes import admin_bp
+
 
 app = Flask(__name__)
 
