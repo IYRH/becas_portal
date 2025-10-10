@@ -1,0 +1,4 @@
+flask
+sqlite3
+openpyxl --- para exportar a excel
+werkzeug
