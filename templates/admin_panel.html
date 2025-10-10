@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container my-5">
+  <h2 class="text-center mb-4">Panel de Administración</h2>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="alert alert-success text-center">{{ messages[0] }}</div>
+    {% endif %}
+  {% endwith %}
+
+  {% if solicitudes %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark text-center">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>CURP</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>NSS</th>
+            <th>% Cursado</th>
+            <th>Carrera</th>
+            <th>Beca</th>
+            <th>Archivo PDF</th>
+            <th>Estatus</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in solicitudes %}
+          <tr>
+            <td>{{ s[0] }}</td>
+            <td>{{ s[1] }}</td>
+            <td>{{ s[2] }}</td>
+            <td>{{ s[3] }}</td>
+            <td>{{ s[4] }}</td>
+            <td>{{ s[5] }}</td>
+            <td>{{ s[6] }}%</td>
+            <td>{{ s[7] }}</td>
+            <td>{{ s[8] }}</td>
+            <td>
+              {% if s[9] %}
+                <a href="{{ url_for('static', filename=s[9].replace('static/', '')) }}" target="_blank">📄 Ver PDF</a>
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <td class="text-center"><span class="badge bg-info text-dark">{{ s[11] }}</span></td>
+            <td>
+              <form action="{{ url_for('admin.actualizar', id=s[0]) }}" method="POST" class="d-flex gap-2">
+                <select name="estatus" class="form-select form-select-sm">
+                  <option value="Recibida" {% if s[11]=='Recibida' %}selected{% endif %}>Recibida</option>
+                  <option value="En revisión" {% if s[11]=='En revisión' %}selected{% endif %}>En revisión</option>
+                  <option value="Aprobada" {% if s[11]=='Aprobada' %}selected{% endif %}>Aprobada</option>
+                  <option value="Rechazada" {% if s[11]=='Rechazada' %}selected{% endif %}>Rechazada</option>
+                </select>
+                <button class="btn btn-primary btn-sm" type="submit">Guardar</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-center">No hay solicitudes registradas aún.</p>
+  {% endif %}
+</div>
+
+</body>
+</html>
