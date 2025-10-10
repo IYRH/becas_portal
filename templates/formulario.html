@@ -8,71 +8,74 @@
 </head>
 <body class="bg-light">
 
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('main.index') }}"> Portal de Becas</a>
+  </div>
+</nav>
+
 <div class="container my-5">
-  <h2 class="text-center mb-4">Formulario de Solicitud de Beca</h2>
+  <h2 class="text-center mb-4"> Formulario de Solicitud de Beca</h2>
 
   {% with messages = get_flashed_messages() %}
     {% if messages %}
-      <div class="alert alert-info text-center">{{ messages[0] }}</div>
+      <div class="alert alert-success text-center">{{ messages[0] }}</div>
     {% endif %}
   {% endwith %}
 
-  <form action="{{ url_for('main.solicitud') }}" method="POST" enctype="multipart/form-data" class="p-4 bg-white rounded shadow">
-    <div class="mb-3">
-      <label class="form-label">Nombre completo</label>
-      <input type="text" name="nombre" class="form-control" required>
+  <form action="{{ url_for('main.enviar_formulario') }}" method="POST" class="shadow p-4 bg-white rounded">
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Nombre</label>
+        <input type="text" name="nombre" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Apellidos</label>
+        <input type="text" name="apellidos" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Correo electrónico</label>
+        <input type="email" name="correo" class="form-control" required>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">CURP</label>
-      <input type="text" name="curp" class="form-control" required>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Teléfono</label>
+        <input type="text" name="telefono" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Número de Seguro Social (NSS)</label>
+        <input type="text" name="nss" class="form-control" required>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Correo electrónico</label>
-      <input type="email" name="correo" class="form-control" required>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">% de Materias Cursadas</label>
+        <input type="number" name="porcentaje_materias" class="form-control" min="0" max="100" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Carrera</label>
+        <select name="carrera" class="form-select" required>
+          <option value="">Selecciona una opción</option>
+          <option value="ICC">Ingeniería en Ciencias de la Computación (ICC)</option>
+          <option value="LCC">Licenciatura en Ciencias de la Computación (LCC)</option>
+          <option value="ITI">Ingeniería en Tecnologías de la Información (ITI)</option>
+        </select>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Teléfono</label>
-      <input type="text" name="telefono" class="form-control">
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Número de Seguro Social</label>
-      <input type="text" name="nss" class="form-control">
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Porcentaje de materias cursadas</label>
-      <input type="number" name="porcentaje" min="0" max="100" class="form-control" required>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Carrera</label>
-      <select name="carrera" class="form-select" required>
-        <option value="">Selecciona tu carrera</option>
-        <option value="ICC">Ingeniería en Ciencias de la Computación</option>
-        <option value="LCC">Licenciatura en Ciencias de la Computación</option>
-        <option value="ITI">Ingeniería en Tecnologías de la Información</option>
-      </select>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Tipo de beca</label>
-      <input type="text" name="beca" class="form-control" required>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Documento PDF (Identificación, comprobante, etc.)</label>
-      <input type="file" name="pdf" accept="application/pdf" class="form-control" required>
-    </div>
-
-    <div class="text-center">
-      <button type="submit" class="btn btn-primary px-4">Enviar solicitud</button>
-    </div>
+    <button class="btn btn-primary w-100">Enviar solicitud</button>
   </form>
 </div>
 
+<footer class="bg-primary text-light text-center py-3">
+  <small>© 2025 Portal de Becas</small>
+</footer>
+
 </body>
 </html>
+
