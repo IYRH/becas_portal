@@ -9,7 +9,7 @@ def crear_base_datos():
         CREATE TABLE IF NOT EXISTS solicitudes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre TEXT NOT NULL,
-            apellido TEXT NOT NULL,
+            apellidos TEXT NOT NULL,
             curp TEXT NOT NULL,
             correo TEXT NOT NULL,
             telefono TEXT,

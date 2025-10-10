@@ -11,12 +11,12 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container">
-    <a class="navbar-brand" href="{{ url_for('main.index') }}"> Portal de Becas</a>
+    <a class="navbar-brand" href="{{ url_for('main.index') }}">Portal de Becas</a>
   </div>
 </nav>
 
 <div class="container my-5">
-  <h2 class="text-center mb-4"> Formulario de Solicitud de Beca</h2>
+  <h2 class="text-center mb-4">Formulario de Solicitud de Beca</h2>
 
   {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -24,8 +24,7 @@
     {% endif %}
   {% endwith %}
 
-  <form action="{{ url_for('main.enviar_formulario') }}" method="POST" class="shadow p-4 bg-white rounded">
-
+  <form action="{{ url_for('main.formulario') }}" method="POST" enctype="multipart/form-data" class="shadow p-4 bg-white rounded">
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="form-label">Nombre</label>
@@ -33,7 +32,14 @@
       </div>
       <div class="col-md-6">
         <label class="form-label">Apellidos</label>
-        <input type="text" name="apellidos" class="form-control" required>
+        <input type="text" name="apellido" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">CURP</label>
+        <input type="text" name="curp" class="form-control" required>
       </div>
       <div class="col-md-6">
         <label class="form-label">Correo electrónico</label>
@@ -55,7 +61,7 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="form-label">% de Materias Cursadas</label>
-        <input type="number" name="porcentaje_materias" class="form-control" min="0" max="100" required>
+        <input type="number" name="porcentaje" class="form-control" min="0" max="100" required>
       </div>
       <div class="col-md-6">
         <label class="form-label">Carrera</label>
@@ -68,7 +74,22 @@
       </div>
     </div>
 
-    <button class="btn btn-primary w-100">Enviar solicitud</button>
+    <div class="mb-3">
+      <label class="form-label">Tipo de Beca</label>
+      <select name="beca" class="form-select" required>
+        <option value="">Selecciona una opción</option>
+        <option value="Institucional">Beca Institucional</option>
+        <option value="Económica">Beca Económica</option>
+        <option value="Excelencia">Beca de Excelencia Académica</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Sube tu documento PDF (Identificación, CURP, etc.)</label>
+      <input type="file" name="pdf" accept=".pdf" class="form-control" required>
+    </div>
+
+    <button class="btn btn-primary w-100" type="submit">Enviar Solicitud</button>
   </form>
 </div>
 
@@ -78,4 +99,3 @@
 
 </body>
 </html>
-
