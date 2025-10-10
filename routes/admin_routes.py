@@ -1,5 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session, send_file
 import sqlite3
+from openpyxl import Workbook
+import io
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -58,3 +60,45 @@ def actualizar(id):
     conexion.close()
     flash("✅ Estatus actualizado correctamente.")
     return redirect(url_for('admin.panel'))
+
+# Exportar a Excel
+@admin_bp.route('/descargar_excel')
+def descargar_excel():
+    if not session.get('admin'):
+        flash("Acceso no autorizado.")
+        return redirect(url_for('admin.login'))
+
+    conexion = sqlite3.connect('becas.db')
+    cursor = conexion.cursor()
+    cursor.execute("SELECT * FROM solicitudes ORDER BY id DESC")
+    solicitudes = cursor.fetchall()
+    conexion.close()
+
+    # Crear archivo Excel en memoria
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Solicitudes de Becas"
+
+    # Encabezados
+    encabezados = [
+        "ID", "Nombre", "Correo", "Teléfono", "NSS",
+        "% Materias Cursadas", "Carrera", "Estatus", "Fecha Registro"
+    ]
+    ws.append(encabezados)
+
+    # Agregar filas
+    for s in solicitudes:
+        ws.append(s)
+
+    # Guardar en memoria (sin archivo temporal)
+    output = io.BytesIO()
+    wb.save(output)
+    output.seek(0)
+
+    # Enviar archivo al navegador
+    return send_file(
+        output,
+        as_attachment=True,
+        download_name="solicitudes_becas.xlsx",
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )

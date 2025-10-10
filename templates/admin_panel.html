@@ -11,7 +11,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">🎓 Panel de Becas</a>
+    <a class="navbar-brand" href="#"> Panel de Becas</a>
     <div class="d-flex">
       <a href="{{ url_for('admin.logout') }}" class="btn btn-outline-light btn-sm">Cerrar sesión</a>
     </div>
@@ -20,7 +20,7 @@
 
 <div class="container my-5">
 
-  <h2 class="mb-4 text-center">📋 Solicitudes Recibidas</h2>
+  <h2 class="mb-4 text-center"> Solicitudes Recibidas</h2>
 
   {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -83,6 +83,13 @@
     <p class="text-center mt-4">No hay solicitudes registradas aún.</p>
   {% endif %}
 </div>
+
+<div class="text-end mb-3">
+  <a href="{{ url_for('admin.descargar_excel') }}" class="btn btn-success">
+    Descargar Excel
+  </a>
+</div>
+
 
 <footer class="bg-primary text-light text-center py-3 mt-5">
   <small>© 2025 Portal de Becas - Administración</small>
