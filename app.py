@@ -4,7 +4,7 @@ from routes.main_routes import main_bp
 from routes.admin_routes import admin_bp
 
 app = Flask(__name__)
-app.secret_key = "clave-secreta-super-segura"  # Necesaria para sesiones Flask
+app.secret_key = "clave-secreta-segura"  # Necesaria para sesiones Flask
 
 # Registrar los blueprints (rutas)
 app.register_blueprint(main_bp)
