@@ -49,3 +49,23 @@ def formulario():
         return redirect(url_for('main.formulario'))
 
     return render_template('formulario.html')
+
+@main_bp.route('/resultado', methods=['GET', 'POST'])
+def resultado():
+    if request.method == 'POST':
+        curp = request.form['curp']
+
+        conexion = sqlite3.connect('becas.db')
+        cursor = conexion.cursor()
+        cursor.execute("SELECT nombre, apellidos, carrera, estatus, fecha_registro FROM solicitudes WHERE curp = ?", (curp,))
+        solicitud = cursor.fetchone()
+        conexion.close()
+
+        if solicitud:
+            return render_template('resultado.html', solicitud=solicitud)
+        else:
+            flash("No se encontró ninguna solicitud con ese CURP.")
+            return redirect(url_for('main.resultado'))
+
+    return render_template('resultado.html', solicitud=None)
+
