@@ -61,8 +61,8 @@
             <h1>Sistema de Gestión de Becas Educativas</h1>
             <p>Plataforma segura y transparente para solicitar, gestionar y hacer seguimiento de tus becas educativas</p>
             <div class="d-flex justify-content-center gap-3">
-                <a href="#" class="btn btn-light btn-custom">🎓 Solicitar Beca</a>
-                <a href="#" class="btn btn-primary btn-custom">🔍 Consultar Estado</a>
+                <a href="{{ url_for('main.formulario') }}" class="btn btn-light btn-custom">🎓 Solicitar Beca</a>
+                <a href="{{ url_for('main.resultado') }}" class="btn btn-primary btn-custom">🔍 Consultar Estado</a>
             </div>
             <div class="mt-4 d-flex justify-content-center gap-4">
                 <span>🔒 Seguro</span>
@@ -140,7 +140,7 @@
                   <p class="card-text">Al realizar tu Servicio Social tiene la opcion de postularte para una beca.</p>
                   <span class="badge bg-success mb-2">Activa</span><br>
 
-                  <a href="formulario.html" class="btn btn-outline-primary btn-sm">Ver más</a>
+                  <a href="{{ url_for('main.formulario') }}" class="btn btn-outline-primary btn-sm">Ver más</a>
                 </div>
               </div>
             </div>
@@ -152,7 +152,7 @@
                   <h5 class="card-title text-primary fw-bold">Beca de Practicas Profesionales</h5>
                   <p class="card-text">Puedes acceder a una beca al realizar tus Practicas Profesionales.</p>
                   <span class="badge bg-success mb-2">Activa</span><br>
-                  <a href="formulario.html" class="btn btn-outline-primary btn-sm">Ver más</a>
+                  <a href="{{ url_for('main.formulario') }}" class="btn btn-outline-primary btn-sm">Ver más</a>
                 </div>
               </div>
             </div>
@@ -164,7 +164,7 @@
                   <h5 class="card-title text-primary fw-bold">Beca de Monitor</h5>
                   <p class="card-text">Apoyo para concluir tu Licenciatura.</p>
                   <span class="badge bg-success mb-2">Activa</span><br>
-                  <a href="formulario.html" class="btn btn-outline-primary btn-sm">Ver más</a>
+                  <a href="{{ url_for('main.formulario') }}" class="btn btn-outline-primary btn-sm">Ver más</a>
                 </div>
               </div>
             </div>
