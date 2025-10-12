@@ -10,6 +10,7 @@ def crear_base_datos():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre TEXT NOT NULL,
             apellidos TEXT NOT NULL,
+            matricula TEXT NOT NULL,
             curp TEXT NOT NULL,
             correo TEXT NOT NULL,
             telefono TEXT,

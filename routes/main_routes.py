@@ -18,6 +18,7 @@ def formulario():
     if request.method == 'POST':
         nombre = request.form['nombre']
         apellidos = request.form['apellidos']
+        matricula = request.form['matricula']
         curp = request.form.get('curp', '') 
         correo = request.form['correo']
         telefono = request.form['telefono']
@@ -39,9 +40,9 @@ def formulario():
         cursor = conexion.cursor()
         cursor.execute('''
             INSERT INTO solicitudes 
-            (nombre, apellidos, curp, correo, telefono, nss, porcentaje_cursado, carrera, beca, pdf, fecha_registro)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (nombre, apellidos, curp, correo, telefono, nss, porcentaje, carrera, beca, pdf_path, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+            (nombre, apellidos, matricula, curp, correo, telefono, nss, porcentaje_cursado, carrera, beca, pdf, fecha_registro)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (nombre, apellidos, matricula, curp, correo, telefono, nss, porcentaje, carrera, beca, pdf_path, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
         conexion.commit()
         conexion.close()
 
