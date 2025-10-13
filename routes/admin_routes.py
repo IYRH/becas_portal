@@ -1,11 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, send_file
 import sqlite3
+from datetime import datetime
 from openpyxl import Workbook
 import io
 
-admin_bp = Blueprint('admin', __name__)
+admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
+DB = 'becas.db'
 
-# Credenciales del administrador (puedes cambiarlas)
+# Credenciales del administrador
 ADMIN_USER = "admin"
 ADMIN_PASS = "12345"
 
@@ -32,7 +34,7 @@ def logout():
     return redirect(url_for('admin.login'))
 
 # Panel principal (requiere sesión)
-@admin_bp.route('/panel')
+@admin_bp.route('/panel', methods=['GET', 'POST'])
 def panel():
     if not session.get('admin'):
         flash("Debes iniciar sesión para acceder al panel.")
@@ -40,10 +42,38 @@ def panel():
 
     conexion = sqlite3.connect('becas.db')
     cursor = conexion.cursor()
+
+    # --- Si el administrador actualiza fechas de convocatorias ---
+    if request.method == 'POST':
+        convocatoria_id = request.form['id']
+        fecha_inicio = request.form['fecha_inicio']
+        fecha_fin = request.form['fecha_fin']
+        cursor.execute('''
+            UPDATE convocatorias
+            SET fecha_inicio = ?, fecha_fin = ?
+            WHERE id = ?
+        ''', (fecha_inicio, fecha_fin, convocatoria_id))
+        conexion.commit()
+        flash("Fechas actualizadas correctamente ✅")
+
+    # --- Solicitudes de becas ---
     cursor.execute("SELECT * FROM solicitudes ORDER BY fecha_registro DESC")
     solicitudes = cursor.fetchall()
+
+    # --- Convocatorias ---
+    cursor.execute("SELECT id, nombre, descripcion, fecha_inicio, fecha_fin FROM convocatorias")
+    convocatorias = cursor.fetchall()
+
     conexion.close()
-    return render_template('admin_panel.html', solicitudes=solicitudes)
+
+    now = datetime.now().strftime('%Y-%m-%d')
+
+    return render_template('admin_panel.html',
+                           solicitudes=solicitudes,
+                           convocatorias=convocatorias,
+                           now=now)
+
+
 
 # Actualizar estatus
 @admin_bp.route('/actualizar/<int:id>', methods=['POST'])
@@ -102,3 +132,4 @@ def descargar_excel():
         download_name="solicitudes_becas.xlsx",
         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+

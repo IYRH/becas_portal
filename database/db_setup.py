@@ -33,6 +33,19 @@ def crear_base_datos():
         )
     ''')
 
+    # Tabla de convocatorias
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS convocatorias (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL UNIQUE,
+            descripcion TEXT,
+            fecha_inicio TEXT,
+            fecha_fin TEXT,
+            activa INTEGER DEFAULT 0
+        )
+    ''')
+
+
     conexion.commit()
     conexion.close()
     print(" Base de datos creada correctamente.")
