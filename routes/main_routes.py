@@ -45,6 +45,7 @@ def formulario():
         nombre = request.form['nombre']
         apellidos = request.form['apellidos']
         matricula = request.form['matricula']
+        promedio = request.form.get('promedio', None)
         curp = request.form.get('curp', '') 
         correo = request.form['correo']
         telefono = request.form['telefono']
@@ -66,9 +67,9 @@ def formulario():
         cursor = conexion.cursor()
         cursor.execute('''
             INSERT INTO solicitudes 
-            (nombre, apellidos, matricula, curp, correo, telefono, nss, porcentaje_cursado, carrera, beca, pdf, fecha_registro)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (nombre, apellidos, matricula, curp, correo, telefono, nss, porcentaje, carrera, beca, pdf_path, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+            (nombre, apellidos, matricula, promedio, curp, correo, telefono, nss, porcentaje_cursado, carrera, beca, pdf, fecha_registro)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (nombre, apellidos, matricula, promedio,  curp, correo, telefono, nss, porcentaje, carrera, beca, pdf_path, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
         conexion.commit()
         conexion.close()
 
@@ -84,7 +85,7 @@ def resultado():
 
         conexion = sqlite3.connect('becas.db')
         cursor = conexion.cursor()
-        cursor.execute("SELECT nombre, apellidos, curp, carrera, estatus, fecha_registro FROM solicitudes WHERE matricula = ?", (matricula,))
+        cursor.execute("SELECT nombre, apellidos, promedio, curp, carrera, estatus, fecha_registro FROM solicitudes WHERE matricula = ?", (matricula,))
         solicitud = cursor.fetchone()
         conexion.close()
 

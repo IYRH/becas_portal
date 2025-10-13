@@ -11,6 +11,7 @@ def crear_base_datos():
             nombre TEXT NOT NULL,
             apellidos TEXT NOT NULL,
             matricula TEXT NOT NULL,
+            promedio REAL,
             curp TEXT NOT NULL,
             correo TEXT NOT NULL,
             telefono TEXT,

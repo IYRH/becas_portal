@@ -111,7 +111,7 @@ def descargar_excel():
 
     # Encabezados
     encabezados = [
-        "ID", "Nombre","Apellidos","Matricula","Correo", "Teléfono", "NSS",
+        "ID", "Nombre","Apellidos","Matricula","Promedio","Correo", "Teléfono", "NSS",
         "% Materias Cursadas", "Carrera", "Estatus", "Fecha Registro"
     ]
     ws.append(encabezados)
