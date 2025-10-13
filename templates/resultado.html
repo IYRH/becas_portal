@@ -39,13 +39,13 @@
         <p><strong>Fecha de registro:</strong> {{ solicitud[4] }}</p>
         <p><strong>Estatus actual:</strong>
           {% if solicitud[3] == 'Aprobada' %}
-            <span class="badge bg-success">Aprobada ✅</span>
+            <span class="badge bg-success">Aprobada </span>
           {% elif solicitud[3] == 'Rechazada' %}
-            <span class="badge bg-danger">Rechazada ❌</span>
+            <span class="badge bg-danger">Rechazada</span>
           {% elif solicitud[3] == 'En revisión' %}
-            <span class="badge bg-warning text-dark">En revisión 🔎</span>
+            <span class="badge bg-warning text-dark">En revisión</span>
           {% else %}
-            <span class="badge bg-secondary">Recibida 🕒</span>
+            <span class="badge bg-secondary">Recibida</span>
           {% endif %}
         </p>
       </div>
