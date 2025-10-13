@@ -11,7 +11,33 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @main_bp.route('/')
 def index():
-    return render_template('index.html')
+    conexion = sqlite3.connect('becas.db')
+    cursor = conexion.cursor()
+
+    # Obtener todas las convocatorias
+    cursor.execute("SELECT nombre, descripcion, fecha_inicio, fecha_fin FROM convocatorias")
+    todas = cursor.fetchall()
+    conexion.close()
+
+    hoy = datetime.now().date()
+
+    convocatorias_info = []
+    for nombre, descripcion, inicio, fin in todas:
+        if inicio and fin:
+            inicio_dt = datetime.strptime(inicio, "%Y-%m-%d").date()
+            fin_dt = datetime.strptime(fin, "%Y-%m-%d").date()
+            if inicio_dt <= hoy <= fin_dt:
+                estado = "Activa"
+            elif hoy < inicio_dt:
+                estado = "Próxima"
+            else:
+                estado = "Inactiva"
+        else:
+            estado = "Sin fechas"
+
+        convocatorias_info.append((nombre, descripcion, inicio, fin, estado))
+
+    return render_template('index.html', convocatorias=convocatorias_info)
 
 @main_bp.route('/formulario', methods=['GET', 'POST'])
 def formulario():

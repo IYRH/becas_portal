@@ -120,57 +120,39 @@
 
 
 
-<!-- === Sección de Convocatorias Activas === -->
+<!-- === Sección de Convocatorias === -->
 <section class="py-5 bg-light">
-  <div class="container">
-    <h2 class="text-center mb-4 text-primary fw-bold">Convocatorias Activas</h2>
+  <div class="container my-5">
+    <h2 class="text-center mb-4">Convocatorias</h2>
+      <div class="row">
+        {% for c in convocatorias %}
+          <div class="col-md-4 mb-3">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h5 class="card-title text-primary fw-bold">{{ c[0] }}</h5>
+                <p class="card-text">{{ c[1] }}</p>
 
-    <div id="convocatoriasCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-
-        <!-- Tarjetas fila 1 -->
-        <div class="carousel-item active">
-          <div class="row justify-content-center">
-
-            <div class="col-md-4 mb-3">
-              <div class="card shadow-sm h-100">
-                
-                <div class="card-body">
-                  <h5 class="card-title text-primary fw-bold">Beca de Servicio Social</h5>
-                  <p class="card-text">Al realizar tu Servicio Social tiene la opcion de postularte para una beca.</p>
+                {% if c[4] == "Activa" %}
                   <span class="badge bg-success mb-2">Activa</span><br>
+                  {% elif c[4] == "Próxima" %}
+                    <span class="badge bg-info text-dark mb-2">Próxima</span><br>
+                  {% elif c[4] == "Inactiva" %}
+                    <span class="badge bg-secondary mb-2">Inactiva</span><br>
+                  {% else %}
+                    <span class="badge bg-warning text-dark mb-2">Sin fechas</span><br>
+                {% endif %}
 
-                  <a href="{{ url_for('main.formulario') }}" class="btn btn-outline-primary btn-sm">Ver más</a>
-                </div>
+                {% if c[2] and c[3] %}
+                  <p class="text-muted small mb-2">📅 Del {{ c[2] }} al {{ c[3] }}</p>
+                {% endif %}
+
+                <a href="{{ url_for('main.formulario') }}" class="btn btn-outline-primary btn-sm">Ver más</a>
               </div>
             </div>
-
-            <div class="col-md-4 mb-3">
-              <div class="card shadow-sm h-100">
-                
-                <div class="card-body">
-                  <h5 class="card-title text-primary fw-bold">Beca de Practicas Profesionales</h5>
-                  <p class="card-text">Puedes acceder a una beca al realizar tus Practicas Profesionales.</p>
-                  <span class="badge bg-success mb-2">Activa</span><br>
-                  <a href="{{ url_for('main.formulario') }}" class="btn btn-outline-primary btn-sm">Ver más</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4 mb-3">
-              <div class="card shadow-sm h-100">
-                
-                <div class="card-body">
-                  <h5 class="card-title text-primary fw-bold">Beca de Monitor</h5>
-                  <p class="card-text">Apoyo para concluir tu Licenciatura.</p>
-                  <span class="badge bg-success mb-2">Activa</span><br>
-                  <a href="{{ url_for('main.formulario') }}" class="btn btn-outline-primary btn-sm">Ver más</a>
-                </div>
-              </div>
-            </div>
-
           </div>
-        </div>
+        {% endfor %}
+      </div>
+    </div>
 </section>
 
   <footer>
