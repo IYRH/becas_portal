@@ -43,35 +43,49 @@ def panel():
     conexion = sqlite3.connect('becas.db')
     cursor = conexion.cursor()
 
-    # --- Si el administrador actualiza fechas de convocatorias ---
     if request.method == 'POST':
-        convocatoria_id = request.form['id']
-        fecha_inicio = request.form['fecha_inicio']
-        fecha_fin = request.form['fecha_fin']
-        cursor.execute('''
-            UPDATE convocatorias
-            SET fecha_inicio = ?, fecha_fin = ?
-            WHERE id = ?
-        ''', (fecha_inicio, fecha_fin, convocatoria_id))
-        conexion.commit()
-        flash("Fechas actualizadas correctamente ✅")
+        tipo = request.form.get('tipo')
 
-    # --- Solicitudes de becas ---
-    cursor.execute("SELECT * FROM solicitudes ORDER BY fecha_registro DESC")
+        # --- Actualización de solicitudes (estatus + comentario) ---
+        if tipo == 'solicitud':
+            solicitud_id = request.form['id']
+            estatus = request.form['estatus']
+            comentario = request.form['comentario']
+
+            cursor.execute('''
+                UPDATE solicitudes
+                SET estatus = ?, comentario_admin = ?
+                WHERE id = ?
+            ''', (estatus, comentario, solicitud_id))
+            conexion.commit()
+            flash(" Solicitud actualizada correctamente.")
+
+        # --- Actualización de convocatorias (fechas) ---
+        elif tipo == 'convocatoria':
+            convocatoria_id = request.form['id']
+            fecha_inicio = request.form['fecha_inicio']
+            fecha_fin = request.form['fecha_fin']
+
+            cursor.execute('''
+                UPDATE convocatorias
+                SET fecha_inicio = ?, fecha_fin = ?
+                WHERE id = ?
+            ''', (fecha_inicio, fecha_fin, convocatoria_id))
+            conexion.commit()
+            flash(" Fechas de convocatoria actualizadas correctamente.")
+
+    # --- Obtener datos actualizados ---
+    cursor.execute("SELECT id, nombre, apellidos,matricula , correo, telefono, nss, carrera, estatus, comentario_admin, fecha_registro FROM solicitudes ORDER BY fecha_registro DESC")
     solicitudes = cursor.fetchall()
 
-    # --- Convocatorias ---
     cursor.execute("SELECT id, nombre, descripcion, fecha_inicio, fecha_fin FROM convocatorias")
     convocatorias = cursor.fetchall()
 
     conexion.close()
 
     now = datetime.now().strftime('%Y-%m-%d')
+    return render_template('admin_panel.html', solicitudes=solicitudes, convocatorias=convocatorias, now=now)
 
-    return render_template('admin_panel.html',
-                           solicitudes=solicitudes,
-                           convocatorias=convocatorias,
-                           now=now)
 
 
 

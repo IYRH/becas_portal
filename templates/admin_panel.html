@@ -44,6 +44,7 @@
           <th>% Materias</th>
           <th>Fecha</th>
           <th>Estatus</th>
+          <th>Comentarios</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -68,13 +69,22 @@
             </span>
           </td>
           <td>
-            <form action="{{ url_for('admin.actualizar', id=s[0]) }}" method="POST" class="d-flex gap-2">
+            <form action="{{ url_for('admin.panel') }}" method="POST" class="d-flex flex-column gap-2">
+              <input type="hidden" name="tipo" value="solicitud">
+              <input type="hidden" name="id" value="{{ s[0] }}">
+
+              <!-- Estatus -->
               <select name="estatus" class="form-select form-select-sm" required>
                 <option value="En revisión" {% if s[7] == 'En revisión' %}selected{% endif %}>En revisión</option>
                 <option value="Aprobada" {% if s[7] == 'Aprobada' %}selected{% endif %}>Aprobada</option>
                 <option value="Rechazada" {% if s[7] == 'Rechazada' %}selected{% endif %}>Rechazada</option>
               </select>
-              <button class="btn btn-sm btn-primary">Guardar</button>
+
+              <!-- Comentario -->
+              <textarea name="comentario_admin" class="form-control form-control-sm" rows="2"
+                placeholder="Escribe un comentario...">{{ s[8] or '' }}</textarea>
+
+              <button class="btn btn-sm btn-success mt-1"> Guardar</button>
             </form>
           </td>
         </tr>
@@ -112,6 +122,7 @@
       {% for c in convocatorias %}
       <tr>
         <form action="{{ url_for('admin.panel') }}" method="POST">
+          <input type="hidden" name="tipo" value="convocatoria">   <!-- 🔹 este es el nuevo campo -->
           <input type="hidden" name="id" value="{{ c[0] }}">
           <td>{{ c[1] }}</td>
           <td>{{ c[2] }}</td>
