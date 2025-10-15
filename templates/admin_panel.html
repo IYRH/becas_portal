@@ -51,39 +51,42 @@
       <tbody>
         {% for s in solicitudes %}
         <tr>
-          <td>{{ s[0] }}</td>
-          <td>{{ s[1] }}</td>
-          <td>{{ s[2] }}</td>
-          <td>{{ s[3] }}</td>
-          <td>{{ s[4] }}</td>
-          <td>{{ s[6] }}</td>
-          <td>{{ s[5] }}%</td>
-          <td>{{ s[8] }}</td>
-          <td>{{ s[9] }}</td>
+          <td>{{ s[0] }}</td>   <!-- 🔹 id -->
+          <td>{{ s[1] }}</td>   <!-- 🔹 nombre -->
+          <td>{{ s[2] }}</td>   <!-- 🔹 apellidos -->
+          <td>{{ s[3] }}</td>   <!-- 🔹 matricula -->
+          <td>{{ s[4] }}</td>   <!-- 🔹 correo -->
+          <td>{{ s[5] }}</td>   <!-- 🔹 telefono -->
+          <td>{{ s[6] }}%</td>  <!-- 🔹 nss -->
+          <td>{{ s[7] }}</td>   <!-- 🔹 carrera -->
+          <td>{{ s[8] }}</td>   <!-- 🔹 porcentaje_cursado -->
+          <td>{{ s[9] }}</td>   <!-- 🔹 fecha_registro -->
           <td>
+             <!-- Estatus -->
             <span class="badge 
-              {% if s[7] == 'Aprobada' %}bg-success
-              {% elif s[7] == 'Rechazada' %}bg-danger
+              {% if s[10] == 'Aprobada' %}bg-success
+              {% elif s[10] == 'Rechazada' %}bg-danger
               {% else %}bg-secondary{% endif %}">
-              {{ s[7] }}
+              {{ s[10] }}
             </span>
+            <select name="estatus" class="form-select form-select-sm" required>
+                <option value="En revisión" {% if s[10] == 'En revisión' %}selected{% endif %}>En revisión</option>
+                <option value="Aprobada" {% if s[10] == 'Aprobada' %}selected{% endif %}>Aprobada</option>
+                <option value="Rechazada" {% if s[10] == 'Rechazada' %}selected{% endif %}>Rechazada</option>
+              </select>    
           </td>
+
+          <!-- Comentarios y acciones -->
           <td>
             <form action="{{ url_for('admin.panel') }}" method="POST" class="d-flex flex-column gap-2">
               <input type="hidden" name="tipo" value="solicitud">
               <input type="hidden" name="id" value="{{ s[0] }}">
 
-              <!-- Estatus -->
-              <select name="estatus" class="form-select form-select-sm" required>
-                <option value="En revisión" {% if s[7] == 'En revisión' %}selected{% endif %}>En revisión</option>
-                <option value="Aprobada" {% if s[7] == 'Aprobada' %}selected{% endif %}>Aprobada</option>
-                <option value="Rechazada" {% if s[7] == 'Rechazada' %}selected{% endif %}>Rechazada</option>
-              </select>
-
               <!-- Comentario -->
               <textarea name="comentario_admin" class="form-control form-control-sm" rows="2"
-                placeholder="Escribe un comentario...">{{ s[8] or '' }}</textarea>
-
+                placeholder="Escribe un comentario...">{{ s[11] or '' }}</textarea>
+          </td>
+          <td>          
               <button class="btn btn-sm btn-success mt-1"> Guardar</button>
             </form>
           </td>
