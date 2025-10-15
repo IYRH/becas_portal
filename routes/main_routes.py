@@ -92,7 +92,7 @@ def resultado():
 
         conexion = sqlite3.connect('becas.db')
         cursor = conexion.cursor()
-        cursor.execute("SELECT nombre, apellidos, promedio, curp, carrera, estatus, fecha_registro FROM solicitudes WHERE matricula = ?", (matricula,))
+        cursor.execute("SELECT nombre, apellidos, promedio, curp, carrera, estatus, comentario_admin, fecha_registro FROM solicitudes WHERE matricula = ? ", (matricula,))
         solicitud = cursor.fetchone()
         conexion.close()
 

@@ -35,8 +35,8 @@
     <div class="card shadow-sm">
       <div class="card-body">
         <h5 class="card-title">{{ solicitud[0] }} {{ solicitud[1] }}</h5>
-        <p><strong>Carrera:</strong> {{ solicitud[2] }}</p>
-        <p><strong>Fecha de registro:</strong> {{ solicitud[4] }}</p>
+        <p><strong>Carrera:</strong> {{ solicitud[4] }}</p>
+        <p><strong>Fecha de registro:</strong> {{ solicitud[6] }}</p>
         <p><strong>Estatus actual:</strong>
           {% if solicitud[3] == 'Aprobada' %}
             <span class="badge bg-success">Aprobada </span>
@@ -48,6 +48,8 @@
             <span class="badge bg-secondary">Recibida</span>
           {% endif %}
         </p>
+        <p class="card-text"><strong>Comentario del administrador:</strong> {{ solicitud[6] or 'Sin comentarios' }}</p>
+        <p class="text-muted"><small>Registrada el {{ solicitud[7] }}</small></p>
       </div>
     </div>
   {% endif %}

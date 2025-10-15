@@ -48,9 +48,9 @@ def panel():
 
         # --- Actualización de solicitudes (estatus + comentario) ---
         if tipo == 'solicitud':
-            solicitud_id = request.form.get['id']
-            estatus = request.form.get['estatus']
-            comentario = request.form.get['comentario']
+            solicitud_id = request.form.get('id')
+            estatus = request.form.get('estatus')
+            comentario = request.form.get('comentario')
 
             if solicitud_id and estatus:
                 cursor.execute('''
