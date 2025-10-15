@@ -21,7 +21,8 @@ def crear_base_datos():
             beca TEXT,
             pdf TEXT,
             fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
-            estatus TEXT DEFAULT 'Recibida'
+            estatus TEXT DEFAULT 'Recibida',
+            comentario_admin TEXT
         )
     ''')
 

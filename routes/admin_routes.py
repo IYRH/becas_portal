@@ -48,31 +48,37 @@ def panel():
 
         # --- Actualización de solicitudes (estatus + comentario) ---
         if tipo == 'solicitud':
-            solicitud_id = request.form['id']
-            estatus = request.form['estatus']
-            comentario = request.form['comentario']
+            solicitud_id = request.form.get['id']
+            estatus = request.form.get['estatus']
+            comentario = request.form.get['comentario']
 
-            cursor.execute('''
-                UPDATE solicitudes
-                SET estatus = ?, comentario_admin = ?
-                WHERE id = ?
-            ''', (estatus, comentario, solicitud_id))
-            conexion.commit()
-            flash(" Solicitud actualizada correctamente.")
+            if solicitud_id and estatus:
+                cursor.execute('''
+                    UPDATE solicitudes
+                    SET estatus = ?, comentario_admin = ?
+                    WHERE id = ?
+                ''', (estatus, comentario, solicitud_id))
+                conexion.commit()
+                flash(" Solicitud actualizada correctamente.")
+            else:
+                flash(" Error: ID de solicitud o estatus no proporcionados.")
 
         # --- Actualización de convocatorias (fechas) ---
         elif tipo == 'convocatoria':
-            convocatoria_id = request.form['id']
-            fecha_inicio = request.form['fecha_inicio']
-            fecha_fin = request.form['fecha_fin']
+            convocatoria_id = request.form.get['id']
+            fecha_inicio = request.form.get['fecha_inicio']
+            fecha_fin = request.form.get['fecha_fin']
 
-            cursor.execute('''
-                UPDATE convocatorias
-                SET fecha_inicio = ?, fecha_fin = ?
-                WHERE id = ?
-            ''', (fecha_inicio, fecha_fin, convocatoria_id))
-            conexion.commit()
-            flash(" Fechas de convocatoria actualizadas correctamente.")
+            if convocatoria_id:
+                cursor.execute('''
+                    UPDATE convocatorias
+                    SET fecha_inicio = ?, fecha_fin = ?
+                    WHERE id = ?
+                ''', (fecha_inicio, fecha_fin, convocatoria_id))
+                conexion.commit()
+                flash(" Fechas de convocatoria actualizadas correctamente.")
+            else:
+                flash(" Error: ID de convocatoria no proporcionado.")
 
     # --- Obtener datos actualizados ---
     cursor.execute("SELECT id, nombre, apellidos,matricula , correo, telefono, nss, carrera, estatus, comentario_admin, fecha_registro FROM solicitudes ORDER BY fecha_registro DESC")
