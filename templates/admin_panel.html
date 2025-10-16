@@ -68,12 +68,7 @@
               {% elif s[10] == 'Rechazada' %}bg-danger
               {% else %}bg-secondary{% endif %}">
               {{ s[10] }}
-            </span>
-            <select name="estatus" class="form-select form-select-sm" required>
-                <option value="En revisión" {% if s[10] == 'En revisión' %}selected{% endif %}>En revisión</option>
-                <option value="Aprobada" {% if s[10] == 'Aprobada' %}selected{% endif %}>Aprobada</option>
-                <option value="Rechazada" {% if s[10] == 'Rechazada' %}selected{% endif %}>Rechazada</option>
-              </select>    
+            </span> 
           </td>
 
           <!-- Comentarios y acciones -->
@@ -81,7 +76,12 @@
             <form action="{{ url_for('admin.panel') }}" method="POST" class="d-flex flex-column gap-2">
               <input type="hidden" name="tipo" value="solicitud">
               <input type="hidden" name="id" value="{{ s[0] }}">
-
+              <!-- Estatus -->
+              <select name="estatus" class="form-select form-select-sm" required>
+                <option value="En revisión" {% if s[10] == 'En revisión' %}selected{% endif %}>En revisión</option>
+                <option value="Aprobada" {% if s[10] == 'Aprobada' %}selected{% endif %}>Aprobada</option>
+                <option value="Rechazada" {% if s[10] == 'Rechazada' %}selected{% endif %}>Rechazada</option>
+              </select>   
               <!-- Comentario -->
               <textarea name="comentario_admin" class="form-control form-control-sm" rows="2"
                 placeholder="Escribe un comentario...">{{ s[11] or '' }}</textarea>

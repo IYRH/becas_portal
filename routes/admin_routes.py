@@ -50,7 +50,8 @@ def panel():
         if tipo == 'solicitud':
             solicitud_id = request.form.get('id')
             estatus = request.form.get('estatus')
-            comentario = request.form.get('comentario')
+            comentario = request.form.get('comentario_admin')
+            print("FORM DATA:", dict(request.form))
 
             if solicitud_id and estatus:
                 cursor.execute('''
@@ -65,9 +66,9 @@ def panel():
 
         # --- Actualización de convocatorias (fechas) ---
         elif tipo == 'convocatoria':
-            convocatoria_id = request.form.get['id']
-            fecha_inicio = request.form.get['fecha_inicio']
-            fecha_fin = request.form.get['fecha_fin']
+            convocatoria_id = request.form.get('id')
+            fecha_inicio = request.form.get('fecha_inicio')
+            fecha_fin = request.form.get('fecha_fin')
 
             if convocatoria_id:
                 cursor.execute('''
@@ -114,7 +115,7 @@ def actualizar(id):
         flash("Acceso no autorizado.")
         return redirect(url_for('admin.login'))
 
-    nuevo_estatus = request.form['estatus']
+    nuevo_estatus = request.form('estatus')
     conexion = sqlite3.connect('becas.db')
     cursor = conexion.cursor()
     cursor.execute("UPDATE solicitudes SET estatus = ? WHERE id = ?", (nuevo_estatus, id))

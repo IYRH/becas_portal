@@ -1,11 +1,7 @@
 import sqlite3
-
 conexion = sqlite3.connect('becas.db')
 cursor = conexion.cursor()
-
-cursor.execute("ALTER TABLE solicitudes ADD COLUMN comentario_admin TEXT;")
-
-conexion.commit()
+cursor.execute("PRAGMA table_info(solicitudes)")
+for col in cursor.fetchall():
+    print(col)
 conexion.close()
-
-print(" Columna 'comentario_admin' agregada correctamente.")

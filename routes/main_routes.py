@@ -87,12 +87,14 @@ def formulario():
 
 @main_bp.route('/resultado', methods=['GET', 'POST'])
 def resultado():
+    solicitud = None
+
     if request.method == 'POST':
         matricula = request.form['matricula']
 
         conexion = sqlite3.connect('becas.db')
         cursor = conexion.cursor()
-        cursor.execute("SELECT nombre, apellidos, promedio, curp, carrera, estatus, comentario_admin, fecha_registro FROM solicitudes WHERE matricula = ? ", (matricula,))
+        cursor.execute("SELECT nombre, apellidos, matricula, estatus, carrera, beca,comentario_admin, fecha_registro FROM solicitudes WHERE matricula = ? ", (matricula,))
         solicitud = cursor.fetchone()
         conexion.close()
 

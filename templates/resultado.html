@@ -34,9 +34,10 @@
   {% if solicitud %}
     <div class="card shadow-sm">
       <div class="card-body">
+        <h4 class="text-primary mb-3">Resultado de tu solicitud</h4>
         <h5 class="card-title">{{ solicitud[0] }} {{ solicitud[1] }}</h5>
         <p><strong>Carrera:</strong> {{ solicitud[4] }}</p>
-        <p><strong>Fecha de registro:</strong> {{ solicitud[6] }}</p>
+        <p><strong>Beca solicitada:</strong> {{ solicitud[5] }}</p>
         <p><strong>Estatus actual:</strong>
           {% if solicitud[3] == 'Aprobada' %}
             <span class="badge bg-success">Aprobada </span>
