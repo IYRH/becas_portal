@@ -57,11 +57,10 @@ def formulario():
             pdf = request.files.get('pdf')
 
             # Validar PDF
-            pdf_path = None
+            nombre_pdf = None
             if pdf and pdf.filename.endswith('.pdf'):
-                filename = secure_filename(pdf.filename)
-                pdf_path = os.path.join(UPLOAD_FOLDER, filename)
-                pdf.save(pdf_path)
+                nombre_pdf = secure_filename(pdf.filename)
+                pdf.save(os.path.join(UPLOAD_FOLDER, nombre_pdf))
 
             # Guardar en la base de datos
             conexion = sqlite3.connect('becas.db')
@@ -70,7 +69,7 @@ def formulario():
                 INSERT INTO solicitudes 
                 (nombre, apellidos, matricula, promedio, curp, correo, telefono, nss, porcentaje_cursado, carrera, beca, pdf, fecha_registro, estatus)
                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?, datetime('now'), 'Recibida')
-            ''', (nombre, apellidos, matricula, promedio,  curp, correo, telefono, nss, porcentaje, carrera, beca, pdf_path))
+            ''', (nombre, apellidos, matricula, promedio,  curp, correo, telefono, nss, porcentaje, carrera, beca, nombre_pdf))
             conexion.commit()
             conexion.close()
 

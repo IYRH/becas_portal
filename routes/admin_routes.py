@@ -81,20 +81,8 @@ def panel():
             else:
                 flash(" Error: ID de convocatoria no proporcionado.")
 
-    # --- Obtener datos actualizados ---
-                        # s[0] id
-                        # s[1] nombre       
-                        # s[2] apellidos    
-                        # s[3] matricula                          
-                        # s[4] correo
-                        # s[5] telefono
-                        # s[6] nss
-                        # s[7] carrera
-                        # s[9] porcentaje_cursado
-                        # s[10] fecha_registro
-                        # s[11] estatus
-                        # s[13] comentario_admin
-    cursor.execute("SELECT id, nombre, apellidos,matricula , correo, telefono, nss, carrera, porcentaje_cursado, fecha_registro, estatus, comentario_admin FROM solicitudes ORDER BY fecha_registro DESC")
+    # Obtener solicitudes y convocatorias
+    cursor.execute("SELECT id, nombre, apellidos,matricula , correo, telefono, nss, carrera, porcentaje_cursado, pdf, estatus, comentario_admin FROM solicitudes ORDER BY fecha_registro DESC")
     solicitudes = cursor.fetchall()
 
     cursor.execute("SELECT id, nombre, descripcion, fecha_inicio, fecha_fin FROM convocatorias")
