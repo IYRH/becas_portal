@@ -56,9 +56,9 @@
           <td>{{ s[1] }}</td>   <!-- 🔹 nombre -->
           <td>{{ s[2] }}</td>   <!-- 🔹 apellidos -->
           <td>{{ s[3] }}</td>   <!-- 🔹 matricula -->
-          <td>{{ s[4] }}</td>   <!-- 🔹 correo -->
+          <td><a href="mailto:{{ s[4] }}">{{ s[4] }}</a></td>   <!-- 🔹 correo -->
           <td>{{ s[5] }}</td>   <!-- 🔹 telefono -->
-          <td>{{ s[6] }}%</td>  <!-- 🔹 nss -->
+          <td>{{ s[6] }}</td>   <!-- 🔹 nss -->
           <td>{{ s[7] }}</td>   <!-- 🔹 carrera -->
           <td>{{ s[8] }}</td>   <!-- 🔹 porcentaje_cursado -->
 
@@ -102,6 +102,12 @@
           <td>          
               <button class="btn btn-sm btn-success mt-1"> Guardar</button>
             </form>
+
+            <form action="{{ url_for('admin.eliminar_solicitud', id=s[0]) }}" method="POST"
+              onsubmit="return confirm('¿Estás seguro de eliminar esta solicitud? Esta acción no se puede deshacer.');">
+              <button class="btn btn-sm btn-danger mt-2">Eliminar</button>
+            </form>
+
           </td>
         </tr>
         {% endfor %}

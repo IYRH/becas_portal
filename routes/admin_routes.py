@@ -93,7 +93,22 @@ def panel():
     now = datetime.now().strftime('%Y-%m-%d')
     return render_template('admin_panel.html', solicitudes=solicitudes, convocatorias=convocatorias, now=now)
 
+# Eliminar solicitud
+@admin_bp.route('/eliminar_solicitud/<int:id>', methods=['POST'])
+def eliminar_solicitud(id):
+    """Permite al administrador eliminar una solicitud por su ID."""
+    if not session.get('admin'):
+        flash("Debes iniciar sesión para acceder al panel.")
+        return redirect(url_for('admin.login'))
 
+    conexion = sqlite3.connect('becas.db')
+    cursor = conexion.cursor()
+    cursor.execute("DELETE FROM solicitudes WHERE id = ?", (id,))
+    conexion.commit()
+    conexion.close()
+
+    flash("Solicitud eliminada correctamente ")
+    return redirect(url_for('admin.panel'))
 
 
 # Actualizar estatus
@@ -109,7 +124,7 @@ def actualizar(id):
     cursor.execute("UPDATE solicitudes SET estatus = ? WHERE id = ?", (nuevo_estatus, id))
     conexion.commit()
     conexion.close()
-    flash("✅ Estatus actualizado correctamente.")
+    flash(" Estatus actualizado correctamente.")
     return redirect(url_for('admin.panel'))
 
 # Exportar a Excel
