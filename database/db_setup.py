@@ -7,20 +7,25 @@ def crear_base_datos():
     # Tabla de solicitudes
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS solicitudes (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,               
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            matricula TEXT UNIQUE NOT NULL,                   
             nombre TEXT NOT NULL,                               
-            apellidos TEXT NOT NULL,                            
-            matricula TEXT NOT NULL,                            
-            promedio REAL,                                      
-            curp TEXT NOT NULL,                                 
-            correo TEXT NOT NULL,                               
-            telefono TEXT,                                      
-            nss TEXT,                                          
-            porcentaje_cursado INTEGER,                         
-            carrera TEXT,                                       
-            beca TEXT,                                          
-            pdf TEXT,                                           
-            fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,  
+            apellidos TEXT NOT NULL,
+            curp TEXT NOT NULL,
+            nss TEXT,  
+            carrera TEXT, 
+            beca TEXT,
+            porcentaje_cursado INTEGER,
+            materias_reprobadas INTEGER,                                                     
+            promedio REAL,
+            telefono TEXT NOT NULL,                                                                     
+            correo TEXT NOT NULL,                                                                       
+            actividades TEXT, 
+            horario TEXT,
+            area TEXT,
+            coordinador TEXT,                                                                                                                                                
+            pdf TEXT,
+            fecha_registro TEXT DEFAULT (datetime('now','localtime')),                                           
             estatus TEXT DEFAULT 'Recibida',                    
             comentario_admin TEXT                             
         )
@@ -46,6 +51,8 @@ def crear_base_datos():
             activa INTEGER DEFAULT 0
         )
     ''')
+
+
 
 
     conexion.commit()

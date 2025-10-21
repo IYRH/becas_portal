@@ -8,12 +8,12 @@
 </head>
 <body class="bg-light">
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container">
-    <a class="navbar-brand" href="{{ url_for('main.index') }}">Portal de Becas</a>
-  </div>
-</nav>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('main.index') }}">Portal de Becas</a>
+    </div>
+  </nav>
 
 <div class="container my-5">
   <h2 class="text-center mb-4">Formulario de Solicitud de Beca</h2>
@@ -25,80 +25,105 @@
   {% endwith %}
 
   <form action="{{ url_for('main.formulario') }}" method="POST" enctype="multipart/form-data" class="shadow p-4 bg-white rounded">
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="form-label">Nombre</label>
-        <input type="text" name="nombre" class="form-control" required>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Apellidos</label>
-        <input type="text" name="apellidos" class="form-control" required>
-      </div>
-       <div class="col-md-6">
-        <label class="form-label">Matricula</label>
-        <input type="text" name="matricula" class="form-control" required>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Promedio</label>
-        <input type="text" name="promedio" class="form-control" required>
-      </div>
-    </div>
+    <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Matrícula</label>
+                <input type="text" name="matricula" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Nombre</label>
+                <input type="text" name="nombre" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Apellidos</label>
+                <input type="text" name="apellidos" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>CURP</label>
+                <input type="text" name="curp" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>NSS</label>
+                <input type="text" name="nss" class="form-control">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Programa de estudio</label>
+                  <select name="carrera" class="form-select" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="ICC">Ingeniería en Ciencias de la Computación (ICC)</option>
+                    <option value="LCC">Licenciatura en Ciencias de la Computación (LCC)</option>
+                    <option value="ITI">Ingeniería en Tecnologías de la Información (ITI)</option>
+                  </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Tipo de Beca</label>
+                <select name="beca" class="form-select" required>
+                  <option value="">Selecciona una opción</option>
+                  <option value="Servicio Social">Beca de Servicio Social</option>
+                  <option value="Practicas Profesionales">Beca de Prácticas Profesionales</option>
+                  <option value="Monitores">Beca de Monitores</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Porcentaje Cursado</label>
+                <input type="number" name="porcentaje_cursado" class="form-control">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Materias Reprobadas</label>
+                <input type="number" name="materias_reprobadas" class="form-control">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Promedio</label>
+                <input type="number" step="0.01" name="promedio" class="form-control">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Teléfono</label>
+                <input type="text" name="telefono" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Correo Electrónico Institucional</label>
+                <input type="email" name="correo" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Actividad a Realizar</label>
+                <select name="actividades" class="form-select" required>
+                  <option value="">Selecciona una opción</option>
+                  <option value="laboratorio">Actividades de apoyo en laboratorio</option>
+                  <option value="pp">Práctica Profesional</option>
+                  <option value="ss">Servicio Social</option>
+                  <option value="soporte laboratorio">Soporte Laboratorio</option>
+                  <option value="apoyo academico">Apoyo Academico</option>
+                  <option value="apoyo administrativo">Apoyo Administrativo</option>
+                  <option value="apoyo contable">Apoyo Contable</option>
+                  <option value="otra">Otra</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Horario</label>
+                <select name="horario" class="form-select" required>
+                  <option value="">Selecciona una opción</option>
+                  <option value="Matutino">Matutino 4 horas</option>
+                  <option value="Vespertino">Vespertino 4 horas</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Área/laboratorio</label>
+                <input type="text" name="area" class="form-control">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Nombre completo del Coordinador del área</label>
+                <input type="text" name="coordinador" class="form-control">
+            </div>
+            <div class="col-md-12 mb-3">
+                <label>Adjunta tu expediente en archivo PDF con tu nombre completo comenzando por apellido paterno, apellido materno y nombre/s:</label>
+                <input type="file" name="pdf" accept=".pdf" class="form-control" required>
+            </div>
+        </div>
 
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="form-label">CURP</label>
-        <input type="text" name="curp" class="form-control" required>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Correo electrónico</label>
-        <input type="email" name="correo" class="form-control" required>
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="form-label">Teléfono</label>
-        <input type="text" name="telefono" class="form-control" required>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Número de Seguro Social (NSS)</label>
-        <input type="text" name="nss" class="form-control" required>
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="form-label">% de Materias Cursadas</label>
-        <input type="number" name="porcentaje" class="form-control" min="0" max="100" required>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Carrera</label>
-        <select name="carrera" class="form-select" required>
-          <option value="">Selecciona una opción</option>
-          <option value="ICC">Ingeniería en Ciencias de la Computación (ICC)</option>
-          <option value="LCC">Licenciatura en Ciencias de la Computación (LCC)</option>
-          <option value="ITI">Ingeniería en Tecnologías de la Información (ITI)</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Tipo de Beca</label>
-      <select name="beca" class="form-select" required>
-        <option value="">Selecciona una opción</option>
-        <option value="Servicio Social">Beca de Servicio Social</option>
-        <option value="Practicas Profesionales">Beca de Practicas Profesionales</option>
-        <option value="Monitores">Beca de Monitores</option>
-      </select>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Sube tu documento PDF (Identificación, CURP, etc.)</label>
-      <input type="file" name="pdf" accept=".pdf" class="form-control" required>
-    </div>
-
-    <button class="btn btn-primary w-100" type="submit">Enviar Solicitud</button>
-  </form>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+        </div>
+    </form>
 </div>
 
 <footer class="bg-primary text-light text-center py-3">

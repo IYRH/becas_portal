@@ -43,20 +43,27 @@ def index():
 def formulario():
     if request.method == 'POST':
         try:
+            # Capturar datos del formulario
+            matricula = request.form['matricula']
             nombre = request.form['nombre']
             apellidos = request.form['apellidos']
-            matricula = request.form['matricula']
-            promedio = request.form.get('promedio', None)
-            curp = request.form.get('curp', '') 
-            correo = request.form['correo']
+            curp = request.form['curp']
+            nss = request.form.get('nss')
+            carrera = request.form.get('carrera')
+            beca = request.form.get('beca')
+            porcentaje_cursado = request.form.get('porcentaje_cursado')
+            materias_reprobadas = request.form.get('materias_reprobadas')
+            promedio = request.form.get('promedio')
             telefono = request.form['telefono']
-            nss = request.form['nss']
-            porcentaje = request.form['porcentaje']
-            carrera = request.form['carrera']
-            beca = request.form.get('beca', '')
-            pdf = request.files.get('pdf')
+            correo = request.form['correo']
+            actividades = request.form.get('actividades')
+            horario = request.form.get('horario')
+            area = request.form.get('area')
+            coordinador = request.form.get('coordinador')
+            pdf = request.files.get('pdf')  
 
-            # Validar PDF
+
+            # Capturar archivo PDF
             nombre_pdf = None
             if pdf and pdf.filename.endswith('.pdf'):
                 nombre_pdf = secure_filename(pdf.filename)
@@ -66,23 +73,35 @@ def formulario():
             conexion = sqlite3.connect('becas.db')
             cursor = conexion.cursor()
             cursor.execute('''
-                INSERT INTO solicitudes 
-                (nombre, apellidos, matricula, promedio, curp, correo, telefono, nss, porcentaje_cursado, carrera, beca, pdf, fecha_registro, estatus)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?, datetime('now'), 'Recibida')
-            ''', (nombre, apellidos, matricula, promedio,  curp, correo, telefono, nss, porcentaje, carrera, beca, nombre_pdf))
+                INSERT INTO solicitudes (
+                    matricula, nombre, apellidos, curp, nss, carrera, beca, 
+                    porcentaje_cursado, materias_reprobadas, promedio, 
+                    telefono, correo, actividades, horario, area, coordinador, pdf, fecha_registro,estatus
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now','localtime'), 'Recibida')
+            ''', (
+                matricula, nombre, apellidos, curp, nss, carrera, beca,
+                porcentaje_cursado, materias_reprobadas, promedio,
+                telefono, correo, actividades, horario, area, coordinador,
+                nombre_pdf
+            ))
+
             conexion.commit()
             conexion.close()
 
             flash("Tu solicitud fue enviada correctamente")
             return redirect(url_for('main.formulario'))
         
-        except Exception as e:
-            flash(f"Error al enviar la solicitud: {e}")
+        except sqlite3.IntegrityError:
+            flash(" Ya existe una solicitud con esa matrícula.")
             return redirect(url_for('main.formulario'))
-
-
-
+        except Exception as e:
+            flash(f" Error al enviar la solicitud: {e}")
+            return redirect(url_for('main.formulario'))
+        
     return render_template('formulario.html')
+
+
 
 @main_bp.route('/resultado', methods=['GET', 'POST'])
 def resultado():
@@ -93,7 +112,7 @@ def resultado():
 
         conexion = sqlite3.connect('becas.db')
         cursor = conexion.cursor()
-        cursor.execute("SELECT nombre, apellidos, matricula, estatus, carrera, beca,comentario_admin, fecha_registro FROM solicitudes WHERE matricula = ? ", (matricula,))
+        cursor.execute("SELECT nombre, apellidos, matricula, estatus, carrera, beca,comentario_admin FROM solicitudes WHERE matricula = ? ", (matricula,))
         solicitud = cursor.fetchone()
         conexion.close()
 
