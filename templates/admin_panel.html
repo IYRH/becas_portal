@@ -42,7 +42,7 @@
           <th>Matrícula</th>
           <th>Correo</th>
           <th>Teléfono</th>
-          <th>NSS</th>
+          <th>Materias Reprobadas</th>
           <th>Carrera</th>
           <th>% Materias</th>
           <th>Documentos</th>
@@ -75,22 +75,39 @@
                 <i class="bi bi-file-earmark-pdf-fill"></i> Ver PDF
               </button>
 
-              <!-- Modal de Bootstrap -->
+              <!-- Modal de Bootstrap (Responsive) -->
               <div class="modal fade" id="pdfModal{{ s[0] }}" tabindex="-1" aria-labelledby="pdfModalLabel{{ s[0] }}" aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="pdfModalLabel{{ s[0] }}">Vista previa del PDF</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <div class="modal-dialog modal-fullscreen-sm-down modal-xl modal-dialog-centered">
+                  <div class="modal-content border-0 shadow-lg">
+                    
+                    <!-- Encabezado del modal -->
+                    <div class="modal-header d-flex flex-wrap justify-content-between align-items-center bg-light border-bottom">
+                      <h5 class="modal-title mb-0" id="pdfModalLabel{{ s[0] }}">Vista previa del PDF</h5>
+                      <div class="d-flex align-items-center gap-2 mt-2 mt-sm-0">
+                        <!-- Botón Descargar -->
+                        <a href="{{ url_for('static', filename='uploads/' + s[9]) }}" 
+                          class="btn btn-success btn-sm d-flex align-items-center gap-1" 
+                          download>
+                          <i class="bi bi-download"></i> Descargar
+                        </a>
+                        <!-- Botón Cerrar -->
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">
+                          <i class="bi bi-x-lg"></i> Cerrar
+                        </button>
+                      </div>
                     </div>
-                    <div class="modal-body">
-                      <iframe 
-                        src="{{ url_for('static', filename='uploads/' + s[9]) }}" 
-                        width="100%" 
-                        height="600px"
-                        style="border: none;">
-                      </iframe>
+
+                    <!-- Cuerpo del modal -->
+                    <div class="modal-body p-0">
+                      <div class="ratio ratio-16x9">
+                        <iframe 
+                          src="{{ url_for('static', filename='uploads/' + s[9]) }}" 
+                          allowfullscreen 
+                          style="border: none;">
+                        </iframe>
+                      </div>
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -98,6 +115,7 @@
               <span class="text-muted">No disponible</span>
             {% endif %}
           </td>
+
 
           <!-- Estatus -->
           <td>
@@ -148,6 +166,16 @@
   <a href="{{ url_for('admin.descargar_excel') }}" class="btn btn-success">
     Descargar Excel
   </a>
+</div>
+
+<!-- Editar requisitos -->
+<div class="container my-5">
+  <h2 class="text-primary mb-3">Editar Requisitos</h2>
+
+  <form action="{{ url_for('admin.editar_requisitos') }}" method="POST">
+    <textarea name="contenido" class="form-control" rows="8">{{ requisitos }}</textarea>
+    <button class="btn btn-primary mt-3">Guardar Cambios</button>
+  </form>
 </div>
 
 <!-- Cambiar estado de convocatorias -->

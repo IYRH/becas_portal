@@ -82,16 +82,20 @@ def panel():
                 flash(" Error: ID de convocatoria no proporcionado.")
 
     # Obtener solicitudes y convocatorias
-    cursor.execute("SELECT id, nombre, apellidos,matricula , correo, telefono, nss, carrera, porcentaje_cursado, pdf, estatus, comentario_admin FROM solicitudes ORDER BY fecha_registro DESC")
+    cursor.execute("SELECT id, nombre, apellidos,matricula , correo, telefono, materias_reprobadas, carrera, porcentaje_cursado, pdf, estatus, comentario_admin FROM solicitudes ORDER BY fecha_registro DESC")
     solicitudes = cursor.fetchall()
 
     cursor.execute("SELECT id, nombre, descripcion, fecha_inicio, fecha_fin FROM convocatorias")
     convocatorias = cursor.fetchall()
 
+    cursor.execute("SELECT contenido FROM requisitos LIMIT 1")
+    resultado = cursor.fetchone()
+    requisitos = resultado[0] if resultado else "Aún no hay requisitos definidos."
+
     conexion.close()
 
     now = datetime.now().strftime('%Y-%m-%d')
-    return render_template('admin_panel.html', solicitudes=solicitudes, convocatorias=convocatorias, now=now)
+    return render_template('admin_panel.html', solicitudes=solicitudes, convocatorias=convocatorias, now=now, requisitos=requisitos)
 
 # Eliminar solicitud
 @admin_bp.route('/eliminar_solicitud/<int:id>', methods=['POST'])
@@ -168,4 +172,23 @@ def descargar_excel():
         download_name="solicitudes_becas.xlsx",
         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
+# Editar requisitos
+@admin_bp.route('/editar_requisitos', methods=['POST'])
+def editar_requisitos():
+    if not session.get('admin'):
+        flash("Debes iniciar sesión para acceder al panel.")
+        return redirect(url_for('admin.login'))
+
+    contenido = request.form['contenido']
+
+    conexion = sqlite3.connect('becas.db')
+    cursor = conexion.cursor()
+    cursor.execute("UPDATE requisitos SET contenido = ? WHERE id = 1", (contenido,))
+    conexion.commit()
+    conexion.close()
+
+    flash("Requisitos actualizados correctamente ✅")
+    return redirect(url_for('admin.panel'))
+
 

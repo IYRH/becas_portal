@@ -14,14 +14,21 @@ def index():
     conexion = sqlite3.connect('becas.db')
     cursor = conexion.cursor()
 
-    # Obtener todas las convocatorias
+    # --- Obtener todas las convocatorias ---
     cursor.execute("SELECT nombre, descripcion, fecha_inicio, fecha_fin FROM convocatorias")
     todas = cursor.fetchall()
+
+    # --- Obtener requisitos (solo 1 registro) ---
+    cursor.execute("SELECT contenido FROM requisitos LIMIT 1")
+    resultado = cursor.fetchone()
+    requisitos = resultado[0] if resultado else "Aún no se han definido los requisitos."
+
     conexion.close()
 
+    # --- Procesar estado de convocatorias ---
     hoy = datetime.now().date()
-
     convocatorias_info = []
+
     for nombre, descripcion, inicio, fin in todas:
         if inicio and fin:
             inicio_dt = datetime.strptime(inicio, "%Y-%m-%d").date()
@@ -37,7 +44,13 @@ def index():
 
         convocatorias_info.append((nombre, descripcion, inicio, fin, estado))
 
-    return render_template('index.html', convocatorias=convocatorias_info)
+    # --- Renderizar página principal ---
+    return render_template(
+        'index.html',
+        convocatorias=convocatorias_info,
+        requisitos=requisitos
+    )
+
 
 @main_bp.route('/formulario', methods=['GET', 'POST'])
 def formulario():

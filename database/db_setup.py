@@ -52,6 +52,29 @@ def crear_base_datos():
         )
     ''')
 
+    # Tabla de formulario de pago
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS pago (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL ,
+            matricula TEXT NOT NULL UNIQUE,
+            archivo_pago TEXT
+        )
+    ''')
+
+    # Tabla de requisitos (solo un registro editable por el administrador)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS requisitos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            contenido TEXT NOT NULL
+        )
+    ''')
+
+    # Verifica si ya hay un registro inicial
+    cursor.execute("SELECT COUNT(*) FROM requisitos")
+    if cursor.fetchone()[0] == 0:
+        cursor.execute("INSERT INTO requisitos (contenido) VALUES (?)", 
+                       ("Aquí aparecerán los requisitos para solicitar una beca.",))
 
 
 
