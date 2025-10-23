@@ -168,15 +168,6 @@
   </a>
 </div>
 
-<!-- Editar requisitos -->
-<div class="container my-5">
-  <h2 class="text-primary mb-3">Editar Requisitos</h2>
-
-  <form action="{{ url_for('admin.editar_requisitos') }}" method="POST">
-    <textarea name="contenido" class="form-control" rows="8">{{ requisitos }}</textarea>
-    <button class="btn btn-primary mt-3">Guardar Cambios</button>
-  </form>
-</div>
 
 <!-- Cambiar estado de convocatorias -->
 <div class="container my-5">
@@ -221,6 +212,97 @@
     </tbody>
   </table>
 </div>
+
+ <!-- Sección de Requisitos -->
+<div class="container my-5">
+  <h2 class="text-primary mb-4">Requisitos para la Beca</h2>
+
+  <table class="table table-bordered table-striped align-middle">
+    <thead class="table-primary">
+      <tr>
+        <th style="width: 5%;">ID</th>
+        <th style="width: 70%;">Descripción</th>
+        <th style="width: 25%;">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in requisitos %}
+      <tr>
+        <form action="{{ url_for('admin.panel') }}" method="POST">
+          <input type="hidden" name="tipo" value="requisito">
+          <input type="hidden" name="id" value="{{ r[0] }}">
+          <td>{{ r[0] }}</td>
+          <td><input type="text" class="form-control" name="contenido" value="{{ r[1] }}"></td>
+          <td class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-primary">Guardar</button>
+        </form>
+        <form action="{{ url_for('admin.panel') }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este requisito?');">
+          <input type="hidden" name="tipo" value="eliminar_requisito">
+          <input type="hidden" name="id" value="{{ r[0] }}">
+          <button class="btn btn-sm btn-outline-danger">Eliminar</button>
+        </form>
+          </td>
+      </tr>
+      {% endfor %}
+      <!-- Agregar nuevo requisito -->
+      <tr>
+        <form action="{{ url_for('admin.panel') }}" method="POST">
+          <input type="hidden" name="tipo" value="requisito">
+          <td>Nuevo</td>
+          <td><input type="text" class="form-control" name="contenido" placeholder="Nuevo requisito..."></td>
+          <td><button class="btn btn-sm btn-success">Agregar</button></td>
+        </form>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- Sección de Documentos Requeridos -->
+<div class="container my-5">
+  <h2 class="text-primary mb-4">Documentos Requeridos</h2>
+
+  <table class="table table-bordered table-striped align-middle">
+    <thead class="table-primary">
+      <tr>
+        <th style="width: 5%;">ID</th>
+        <th style="width: 70%;">Descripción</th>
+        <th style="width: 25%;">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in documentos %}
+      <tr>
+        <form action="{{ url_for('admin.panel') }}" method="POST">
+          <input type="hidden" name="tipo" value="documento">
+          <input type="hidden" name="id" value="{{ d[0] }}">
+          <td>{{ d[0] }}</td>
+          <td><input type="text" class="form-control" name="descripcion" value="{{ d[1] }}"></td>
+          <td class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-primary">Guardar</button>
+        </form>
+        <!-- Botón de eliminar -->
+        <form action="{{ url_for('admin.panel') }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este documento?');">
+          <input type="hidden" name="tipo" value="eliminar_documento">
+          <input type="hidden" name="id" value="{{ d[0] }}">
+          <button class="btn btn-sm btn-outline-danger">Eliminar</button>
+        </form>
+          </td>
+      </tr>
+      {% endfor %}
+      <!-- Agregar nuevo documento -->
+      <tr>
+        <form action="{{ url_for('admin.panel') }}" method="POST">
+          <input type="hidden" name="tipo" value="documento">
+          <td>Nuevo</td>
+          <td><input type="text" class="form-control" name="descripcion" placeholder="Nuevo documento..."></td>
+          <td><button class="btn btn-sm btn-success">Agregar</button></td>
+        </form>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
 
 <footer class="bg-primary text-light text-center py-3 mt-5">

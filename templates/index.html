@@ -120,9 +120,50 @@
 
 <!-- Sección de Requisitos -->
 <div class="container my-5">
-  <h2 class="text-primary mb-4 text-center">Requisitos para Solicitar una Beca</h2>
-  <div class="card shadow-sm p-4">
-    <p>{{ requisitos | safe }}</p>
+  <h2 class="text-primary text-center mb-4">Requisitos para la Solicitud</h2>
+  <div class="list-group">
+    {% for req in requisitos %}
+      <label class="list-group-item d-flex flex-column">
+        <div class="fw-bold">{{ loop.index }}. {{ req }}</div>
+      </label>
+    {% else %}
+      <p class="text-center text-muted">No hay requisitos registrados aún.</p>
+    {% endfor %}
+  </div>
+</div>
+
+
+<style>
+.list-group-item {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+}
+
+.fw-bold {
+  font-size: 1.1rem;
+  color: #0d6efd;
+}
+</style>
+
+<!-- Sección de Documentos -->
+<div class="container my-5">
+  <h2 class="text-primary text-center mb-4">Documentos a Incluir en el PDF</h2>
+
+  <div class="list-group">
+    {% for doc in documentos %}
+      <label class="list-group-item d-flex flex-column">
+        <div class="fw-bold">{{ loop.index }}. {{ doc }}</div>
+      </label>
+    {% else %}
+      <p class="text-center text-muted">No se han definido documentos aún.</p>
+    {% endfor %}
   </div>
 </div>
 

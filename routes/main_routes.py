@@ -18,10 +18,13 @@ def index():
     cursor.execute("SELECT nombre, descripcion, fecha_inicio, fecha_fin FROM convocatorias")
     todas = cursor.fetchall()
 
-    # --- Obtener requisitos (solo 1 registro) ---
-    cursor.execute("SELECT contenido FROM requisitos LIMIT 1")
-    resultado = cursor.fetchone()
-    requisitos = resultado[0] if resultado else "Aún no se han definido los requisitos."
+    # --- Obtener requisitos ---
+    cursor.execute("SELECT contenido FROM requisitos")
+    requisitos = [fila[0] for fila in cursor.fetchall()]
+
+    # --- Obtener documentos ---
+    cursor.execute("SELECT descripcion FROM documentos")    
+    documentos = [fila[0] for fila in cursor.fetchall()]    
 
     conexion.close()
 
@@ -48,7 +51,8 @@ def index():
     return render_template(
         'index.html',
         convocatorias=convocatorias_info,
-        requisitos=requisitos
+        requisitos=requisitos,
+        documentos=documentos
     )
 
 

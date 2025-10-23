@@ -62,7 +62,7 @@ def crear_base_datos():
         )
     ''')
 
-    # Tabla de requisitos (solo un registro editable por el administrador)
+    # Tabla de requisitos
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS requisitos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,11 +70,19 @@ def crear_base_datos():
         )
     ''')
 
+    # Tabla de documentos
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS documentos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        descripcion TEXT NOT NULL
+    )
+''')
+
     # Verifica si ya hay un registro inicial
-    cursor.execute("SELECT COUNT(*) FROM requisitos")
-    if cursor.fetchone()[0] == 0:
-        cursor.execute("INSERT INTO requisitos (contenido) VALUES (?)", 
-                       ("Aquí aparecerán los requisitos para solicitar una beca.",))
+    #cursor.execute("SELECT COUNT(*) FROM requisitos")
+    #if cursor.fetchone()[0] == 0:
+    #    cursor.execute("INSERT INTO requisitos (descripcion) VALUES (?)", 
+    #                   ("Aquí aparecerán los requisitos para solicitar una beca.",))
 
 
 
