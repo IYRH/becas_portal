@@ -9,6 +9,12 @@ main_bp = Blueprint('main', __name__)
 UPLOAD_FOLDER = 'static/uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+UPLOAD_SOLICITUDES = 'static/uploads/solicitudes'
+os.makedirs(UPLOAD_SOLICITUDES, exist_ok=True)
+
+UPLOAD_PAGOS = 'static/uploads/pagos'
+os.makedirs(UPLOAD_PAGOS, exist_ok=True)
+
 @main_bp.route('/')
 def index():
     conexion = sqlite3.connect('becas.db')
@@ -24,7 +30,11 @@ def index():
 
     # --- Obtener documentos ---
     cursor.execute("SELECT descripcion FROM documentos")    
-    documentos = [fila[0] for fila in cursor.fetchall()]    
+    documentos = [fila[0] for fila in cursor.fetchall()]
+
+    # --- Obtener solicitudes de pago ---
+    cursor.execute("SELECT * FROM pago ORDER BY id DESC")
+    pagos = cursor.fetchall()    
 
     conexion.close()
 
@@ -52,7 +62,7 @@ def index():
         'index.html',
         convocatorias=convocatorias_info,
         requisitos=requisitos,
-        documentos=documentos
+        documentos=documentos, pagos=pagos
     )
 
 
@@ -82,9 +92,11 @@ def formulario():
 
             # Capturar archivo PDF
             nombre_pdf = None
-            if pdf and pdf.filename.endswith('.pdf'):
-                nombre_pdf = secure_filename(pdf.filename)
-                pdf.save(os.path.join(UPLOAD_FOLDER, nombre_pdf))
+            if pdf and pdf.filename != '' and pdf.filename.endswith('.pdf'):
+                nombre_seguro = secure_filename(pdf.filename)
+                # Renombrar para evitar duplicados: matricula + timestamp + nombre
+                nombre_pdf = f"{matricula}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{nombre_seguro}"
+                pdf.save(os.path.join(UPLOAD_SOLICITUDES, nombre_pdf))
 
             # Guardar en la base de datos
             conexion = sqlite3.connect('becas.db')
@@ -140,4 +152,48 @@ def resultado():
             return redirect(url_for('main.resultado'))
 
     return render_template('resultado.html', solicitud=None)
+
+
+@main_bp.route('/formulario_pago', methods=['GET', 'POST'])
+def formulario_pago():
+    if request.method == 'POST':
+        try:
+            # --- Capturar datos del formulario de pago ---
+            nombre = request.form['nombre']
+            apellidos = request.form['apellidos']
+            matricula = request.form['matricula']
+            archivo_pago = request.files.get('archivo_pago')
+
+            # --- Capturar archivo PDF ---
+            nombre_archivo = None
+            if archivo_pago and archivo_pago.filename != '' and archivo_pago.filename.endswith('.pdf'):
+                nombre_seguro = secure_filename(archivo_pago.filename)
+                # Renombrar para evitar duplicados: matricula + timestamp + nombre
+                nombre_archivo = f"{matricula}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{nombre_seguro}"
+                archivo_pago.save(os.path.join(UPLOAD_PAGOS, nombre_archivo))
+
+            # --- Guardar en la base de datos ---
+            conexion = sqlite3.connect('becas.db')
+            cursor = conexion.cursor()
+            cursor.execute('''
+                INSERT INTO pago (nombre, apellidos, matricula, archivo_pago)
+                VALUES (?, ?, ?, ?)
+            ''', (
+                nombre, apellidos, matricula, nombre_archivo
+            ))
+            conexion.commit()
+            conexion.close()
+
+            flash("Tu formulario de pago fue enviado correctamente")
+            return redirect(url_for('main.formulario_pago'))
+
+        except sqlite3.IntegrityError:
+            flash("Ya existe un formulario de pago con esa matrícula.")
+            return redirect(url_for('main.formulario_pago'))
+        except Exception as e:
+            flash(f"Error al enviar el formulario de pago: {e}")
+            return redirect(url_for('main.formulario_pago'))
+
+    return render_template('formulario-pago.html')
+
 

@@ -57,8 +57,11 @@ def crear_base_datos():
         CREATE TABLE IF NOT EXISTS pago (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre TEXT NOT NULL ,
+            apellidos TEXT NOT NULL,
             matricula TEXT NOT NULL UNIQUE,
-            archivo_pago TEXT
+            archivo_pago TEXT,
+            estatus TEXT DEFAULT 'Recibida',                    
+            comentario_admin TEXT  
         )
     ''')
 

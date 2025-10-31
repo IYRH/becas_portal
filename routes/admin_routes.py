@@ -64,6 +64,23 @@ def panel():
             else:
                 flash(" Error: ID de solicitud o estatus no proporcionados.")
 
+        # --- Actualizacion de solicitudes de pago ---
+        elif tipo == 'pago':
+            pago_id = request.form.get('id')
+            estatus = request.form.get('estatus')
+            comentario = request.form.get('comentario_admin')
+
+            if pago_id and estatus:
+                cursor.execute('''
+                    UPDATE pago
+                    SET estatus = ?, comentario_admin = ?
+                    WHERE id = ?
+                ''', (estatus, comentario, pago_id))
+                conexion.commit()
+                flash(" Solicitud de pago actualizada correctamente.")
+            else:
+                flash(" Error: ID de solicitud de pago o estatus no proporcionados.")
+
         # --- Actualización de convocatorias (fechas) ---
         elif tipo == 'convocatoria':
             convocatoria_id = request.form.get('id')
@@ -148,11 +165,15 @@ def panel():
     cursor.execute("SELECT * FROM documentos")
     documentos = cursor.fetchall()
 
+    #Obtener solicitudes de pago
+    cursor.execute("SELECT * FROM pago ORDER BY id DESC")
+    pagos = cursor.fetchall()
+
 
     conexion.close()
 
     now = datetime.now().strftime('%Y-%m-%d')
-    return render_template('admin_panel.html', solicitudes=solicitudes, convocatorias=convocatorias, requisitos=requisitos, documentos=documentos, now=now)
+    return render_template('admin_panel.html', solicitudes=solicitudes, convocatorias=convocatorias, requisitos=requisitos, documentos=documentos, pagos=pagos, now=now)
 
 # Eliminar solicitud
 @admin_bp.route('/eliminar_solicitud/<int:id>', methods=['POST'])
@@ -230,6 +251,39 @@ def descargar_excel():
         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
+#panel de pagos
+@admin_bp.route('/pagos', methods=['GET', 'POST'])
+def pagos_admin():
+    if not session.get('admin'):
+        flash("Debes iniciar sesión para acceder al panel de pagos.")
+        return redirect(url_for('admin.login'))
+
+    conexion = sqlite3.connect(DB)
+    cursor = conexion.cursor()
+
+    # Si el admin actualiza un pago (estatus o comentario)
+    if request.method == 'POST':
+        id_pago = request.form.get('id_pago')
+        nuevo_estatus = request.form.get('estatus')
+        comentario = request.form.get('comentario')
+
+        if id_pago and nuevo_estatus:
+            cursor.execute('''
+                UPDATE pago
+                SET estatus = ?, comentario_admin = ?
+                WHERE id = ?
+            ''', (nuevo_estatus, comentario, id_pago))
+            conexion.commit()
+            flash('Pago actualizado correctamente')
+        else:
+            flash('Error: faltan datos para actualizar el pago.')
+
+    # Obtener todos los pagos
+    cursor.execute('SELECT id, nombre, apellidos, matricula, archivo_pago, estatus, comentario_admin FROM pago ORDER BY id DESC')
+    pagos = cursor.fetchall()
+    conexion.close()
+
+    return render_template('admin_pagos.html', pagos=pagos)
 
 
 
