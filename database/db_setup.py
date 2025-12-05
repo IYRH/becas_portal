@@ -92,3 +92,8 @@ def crear_base_datos():
     conexion.commit()
     conexion.close()
     print(" Base de datos creada correctamente.")
+
+    def get_db_connection():
+        conn = sqlite3.connect('becas.db')
+        conn.row_factory = sqlite3.Row
+    return conn

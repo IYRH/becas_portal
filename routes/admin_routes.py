@@ -3,6 +3,7 @@ import sqlite3
 from datetime import datetime
 from openpyxl import Workbook
 import io
+import os
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 DB = 'becas.db'
@@ -286,26 +287,38 @@ def pagos_admin():
     return render_template('admin_pagos.html', pagos=pagos)
 
 # Eliminar pago
-@admin_bp.route("/pagos/eliminar/<int:pago_id>", methods=["POST"])
-def eliminar_pago(pago_id):
-    from database import get_db_connection
-    conn = get_db_connection()
-    cursor = conn.cursor()
+@admin_bp.route('/eliminar_pago/<int:id>', methods=['POST'])
+def eliminar_pago(id):
+    """Permite al administrador eliminar un pago por su ID y borrar el PDF asociado."""
+    if not session.get('admin'):
+        flash("Debes iniciar sesión para acceder al panel.")
+        return redirect(url_for('admin.login'))
 
-    try:
-        cursor.execute("DELETE FROM pagos WHERE id = %s", (pago_id,))
-        conn.commit()
-    except Exception as e:
-        print("Error eliminando pago:", e)
-        conn.rollback()
+    # 1. Obtener el nombre del archivo para borrarlo después
+    conexion = sqlite3.connect('becas.db')
+    cursor = conexion.cursor()
+    cursor.execute("SELECT archivo_pago FROM pago WHERE id = ?", (id,))
+    resultado = cursor.fetchone()
 
-    cursor.close()
-    conn.close()
+    if resultado:
+        archivo_pdf = resultado[0]  # nombre del archivo
+    else:
+        archivo_pdf = None
 
-    return redirect(url_for("admin.panel"))
+    # 2. Eliminar el registro de la base de datos
+    cursor.execute("DELETE FROM pago WHERE id = ?", (id,))
+    conexion.commit()
+    conexion.close()
 
+    # 3. Borrar el archivo físico si existe
+    if archivo_pdf:
+        ruta_archivo = os.path.join('static', 'uploads', 'pagos', archivo_pdf)
+        if os.path.exists(ruta_archivo):
+            try:
+                os.remove(ruta_archivo)
+            except Exception as e:
+                print("Error al eliminar archivo:", e)
 
-
-
-
+    flash("Pago eliminado correctamente.")
+    return redirect(url_for('admin.panel'))
 
