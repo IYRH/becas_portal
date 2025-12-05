@@ -8,7 +8,7 @@ def crear_base_datos():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS solicitudes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            matricula TEXT UNIQUE NOT NULL,                   
+            matricula TEXT NOT NULL,                   
             nombre TEXT NOT NULL,                               
             apellidos TEXT NOT NULL,
             curp TEXT NOT NULL,
@@ -58,7 +58,7 @@ def crear_base_datos():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre TEXT NOT NULL ,
             apellidos TEXT NOT NULL,
-            matricula TEXT NOT NULL UNIQUE,
+            matricula TEXT NOT NULL,
             archivo_pago TEXT,
             estatus TEXT DEFAULT 'Recibida',                    
             comentario_admin TEXT  
