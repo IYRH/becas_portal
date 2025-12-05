@@ -287,7 +287,14 @@
                   <textarea name="comentario_admin" class="form-control form-control-sm mb-2" placeholder="Comentario...">{{ p[6] or '' }}</textarea>
                   <button type="submit" class="btn btn-success btn-sm w-100">Guardar</button>
                 </form>
+                <form action="{{ url_for('admin.eliminar_pago', pago_id=p[0]) }}" method="post"
+                  onsubmit="return confirm('¿Seguro que deseas eliminar este pago?');">
+                  <button class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash-fill"></i> Eliminar
+                  </button>
+                </form>
               </td>
+
             </tr>
             {% endfor %}
           </tbody>

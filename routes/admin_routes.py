@@ -285,6 +285,25 @@ def pagos_admin():
 
     return render_template('admin_pagos.html', pagos=pagos)
 
+# Eliminar pago
+@admin_bp.route("/pagos/eliminar/<int:pago_id>", methods=["POST"])
+def eliminar_pago(pago_id):
+    from database import get_db_connection
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("DELETE FROM pagos WHERE id = %s", (pago_id,))
+        conn.commit()
+    except Exception as e:
+        print("Error eliminando pago:", e)
+        conn.rollback()
+
+    cursor.close()
+    conn.close()
+
+    return redirect(url_for("admin.panel"))
+
 
 
 
