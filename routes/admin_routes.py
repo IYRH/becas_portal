@@ -251,6 +251,48 @@ def descargar_excel():
         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
+
+@admin_bp.route('/excel_pagos')
+def excel_pagos():
+    if not session.get('admin'):
+        flash("Acceso no autorizado.")
+        return redirect(url_for('admin.login'))
+
+    conexion = sqlite3.connect('becas.db')
+    cursor = conexion.cursor()
+    cursor.execute("SELECT * FROM pago ORDER BY id DESC")
+    solicitudes = cursor.fetchall()
+    conexion.close()
+
+    # Crear archivo Excel en memoria
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Formulario de Pagos"
+
+    # Encabezados
+    encabezados = [
+        "ID", "Nombre", "Apellidos", "Matricula", "Archivo Pago", "Estatus", "Comentario Admin"
+    ]
+    ws.append(encabezados)
+
+    # Agregar filas
+    for s in solicitudes:
+        ws.append(s)
+
+    # Guardar en memoria (sin archivo temporal)
+    output = io.BytesIO()
+    wb.save(output)
+    output.seek(0)
+
+    # Enviar archivo al navegador
+    return send_file(
+        output,
+        as_attachment=True,
+        download_name="Formulario_pagos.xlsx",
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
+
 #panel de pagos
 @admin_bp.route('/pagos', methods=['GET', 'POST'])
 def pagos_admin():

@@ -126,10 +126,15 @@
 
 <div class="tab-content mt-4" id="adminTabsContent">
   <!-- Sección de Solicitudes Recibidas -->
+  <h2 class="mb-4 text-center"> Solicitudes Recibidas</h2>
   <div class="tab-pane fade show active" id="solicitudes" role="tabpanel">
-
-      <h2 class="mb-4 text-center"> Solicitudes Recibidas</h2>
-
+        <!-- Botón Descargar Excel -->
+        <div class="text-end mb-3">
+          <a href="{{ url_for('admin.descargar_excel') }}" class="btn btn-success">
+            Descargar Excel
+          </a>
+        </div>
+     
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           <div class="alert alert-info text-center">{{ messages[0] }}</div>
@@ -267,16 +272,15 @@
       {% endif %}
   </div>
 
-  <!-- Botón Descargar Excel -->
-  <div class="text-end mb-3">
-    <a href="{{ url_for('admin.descargar_excel') }}" class="btn btn-success">
-      Descargar Excel
-    </a>
-  </div>
-
   <!-- Sección de Pagos Recibidos -->
   <div class="tab-pane fade" id="pagos" role="tabpanel">
     <h4 class="mb-3"> Solicitudes de Pago</h4>
+      <!-- Descargar Excel -->
+        <div class="text-end mb-3">
+          <a href="{{ url_for('admin.excel_pagos') }}" class="btn btn-success">
+            Descargar Excel
+          </a>
+        </div>
       <div class="table-responsive">
         <table class="table table-bordered table-striped align-middle">
           <thead class="table-success">
