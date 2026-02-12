@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 import sqlite3
 from datetime import datetime
 from openpyxl import Workbook
+from werkzeug.security import generate_password_hash, check_password_hash
 import io
 import os
 
@@ -9,23 +10,36 @@ admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 DB = 'becas.db'
 
 # Credenciales del administrador
-ADMIN_USER = "admin"
-ADMIN_PASS = "12345"
+#ADMIN_USER = "admin"
+#ADMIN_PASS = "12345"
 
 # Página de login
 @admin_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        usuario = request.form['usuario']
+        username = request.form['usuario']
         password = request.form['password']
-        if usuario == ADMIN_USER and password == ADMIN_PASS:
-            session['admin'] = True
-            flash("Bienvenido, administrador.")
+
+        conexion = sqlite3.connect('becas.db')
+        cursor = conexion.cursor()
+
+        cursor.execute("SELECT id, username, password_hash FROM admin WHERE username = ?", (username,))
+        admin = cursor.fetchone()
+
+        conexion.close()
+
+        if admin and check_password_hash(admin[2], password):
+            session['admin_id'] = admin[0]
+            session['admin_username'] = admin[1]
+            flash("Bienvenido administrador ✅")
             return redirect(url_for('admin.panel'))
         else:
-            flash("Usuario o contraseña incorrectos.")
+            flash("Usuario o contraseña incorrectos ❌")
             return redirect(url_for('admin.login'))
+
     return render_template('admin_login.html')
+
+
 
 # Cerrar sesión
 @admin_bp.route('/logout')
@@ -37,7 +51,7 @@ def logout():
 # Panel principal (requiere sesión)
 @admin_bp.route('/panel', methods=['GET', 'POST'])
 def panel():
-    if not session.get('admin'):
+    if not session.get('admin_id'):
         flash("Debes iniciar sesión para acceder al panel.")
         return redirect(url_for('admin.login'))
 
@@ -180,7 +194,7 @@ def panel():
 @admin_bp.route('/eliminar_solicitud/<int:id>', methods=['POST'])
 def eliminar_solicitud(id):
     """Permite al administrador eliminar una solicitud por su ID."""
-    if not session.get('admin'):
+    if not session.get('admin_id'):
         flash("Debes iniciar sesión para acceder al panel.")
         return redirect(url_for('admin.login'))
 
@@ -197,7 +211,7 @@ def eliminar_solicitud(id):
 # Actualizar estatus
 @admin_bp.route('/actualizar/<int:id>', methods=['POST'])
 def actualizar(id):
-    if not session.get('admin'):
+    if not session.get('admin_id'):
         flash("Acceso no autorizado.")
         return redirect(url_for('admin.login'))
 
@@ -213,7 +227,7 @@ def actualizar(id):
 # Exportar a Excel
 @admin_bp.route('/descargar_excel')
 def descargar_excel():
-    if not session.get('admin'):
+    if not session.get('admin_id'):
         flash("Acceso no autorizado.")
         return redirect(url_for('admin.login'))
 
@@ -254,7 +268,7 @@ def descargar_excel():
 
 @admin_bp.route('/excel_pagos')
 def excel_pagos():
-    if not session.get('admin'):
+    if not session.get('admin_id'):
         flash("Acceso no autorizado.")
         return redirect(url_for('admin.login'))
 
@@ -296,7 +310,7 @@ def excel_pagos():
 #panel de pagos
 @admin_bp.route('/pagos', methods=['GET', 'POST'])
 def pagos_admin():
-    if not session.get('admin'):
+    if not session.get('admin_id'):
         flash("Debes iniciar sesión para acceder al panel de pagos.")
         return redirect(url_for('admin.login'))
 
@@ -331,7 +345,7 @@ def pagos_admin():
 @admin_bp.route('/eliminar_pago/<int:id>', methods=['POST'])
 def eliminar_pago(id):
     """Permite al administrador eliminar un pago por su ID y borrar el PDF asociado."""
-    if not session.get('admin'):
+    if not session.get('admin_id'):
         flash("Debes iniciar sesión para acceder al panel.")
         return redirect(url_for('admin.login'))
 
@@ -363,3 +377,66 @@ def eliminar_pago(id):
     flash("Pago eliminado correctamente.")
     return redirect(url_for('admin.panel'))
 
+
+@admin_bp.route('/actualizar_admin', methods=['POST'])
+def actualizar_admin():
+    if not session.get('admin_id'):
+        flash("Debes iniciar sesión.")
+        return redirect(url_for('admin.login'))
+
+    nuevo_username = request.form.get('nuevo_username')
+    password_actual = request.form.get('password_actual')
+    nueva_password = request.form.get('nueva_password')
+    confirmar_password = request.form.get('confirmar_password')
+
+    conexion = sqlite3.connect('becas.db')
+    cursor = conexion.cursor()
+
+    # Obtener datos actuales del admin
+    cursor.execute("SELECT id, username, password_hash FROM admin WHERE id = ?", (session['admin_id'],))
+    admin = cursor.fetchone()
+
+    if not admin:
+        flash("Administrador no encontrado.")
+        conexion.close()
+        return redirect(url_for('admin.panel'))
+
+    admin_id = admin[0]
+    password_hash_db = admin[2]
+
+    # Verificar contraseña actual
+    if not check_password_hash(password_hash_db, password_actual):
+        flash("La contraseña actual es incorrecta ❌")
+        conexion.close()
+        return redirect(url_for('admin.panel'))
+
+    # Si quiere cambiar contraseña
+    if nueva_password:
+        if nueva_password != confirmar_password:
+            flash("Las nuevas contraseñas no coinciden ❌")
+            conexion.close()
+            return redirect(url_for('admin.panel'))
+
+        nueva_password_hash = generate_password_hash(nueva_password)
+
+        cursor.execute("""
+            UPDATE admin
+            SET username = ?, password_hash = ?
+            WHERE id = ?
+        """, (nuevo_username, nueva_password_hash, admin_id))
+
+    else:
+        cursor.execute("""
+            UPDATE admin
+            SET username = ?
+            WHERE id = ?
+        """, (nuevo_username, admin_id))
+
+    conexion.commit()
+    conexion.close()
+
+    # Actualizar sesión
+    session['admin_username'] = nuevo_username
+
+    flash("Datos actualizados correctamente ✅")
+    return redirect(url_for('admin.panel'))

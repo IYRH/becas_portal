@@ -112,6 +112,11 @@
             <i class="bi bi-file-earmark"></i> Documentos
           </a>
         </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="configuracion-tab" data-bs-toggle="tab" data-bs-target="#configuracion" role="tab">
+            <i class="bi bi-file-earmark"></i> Configuracion
+          </a>
+        </li>
       </ul>
 
       <!-- Botón de cerrar sesión -->
@@ -525,6 +530,57 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- Sección: Configuración del Administrador -->
+  <div class="tab-pane fade" id="configuracion" role="tabpanel">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Configuración de Cuenta</h5>
+      </div>
+
+      <div class="card-body">
+        <form action="{{ url_for('admin.actualizar_admin') }}" method="POST">
+
+          <!-- Usuario actual -->
+          <div class="mb-3">
+            <label class="form-label">Usuario actual</label>
+            <input type="text" class="form-control" value="{{ session['admin'] }}" disabled>
+          </div>
+
+          <!-- Nuevo usuario -->
+          <div class="mb-3">
+            <label class="form-label">Nuevo nombre de usuario</label>
+            <input type="text" name="nuevo_username" class="form-control" required>
+          </div>
+
+          <hr>
+
+          <!-- Contraseña actual -->
+          <div class="mb-3">
+            <label class="form-label">Contraseña actual</label>
+            <input type="password" name="password_actual" class="form-control" required>
+          </div>
+
+          <!-- Nueva contraseña -->
+          <div class="mb-3">
+            <label class="form-label">Nueva contraseña (opcional)</label>
+            <input type="password" name="nueva_password" class="form-control">
+          </div>
+
+          <!-- Confirmar nueva contraseña -->
+          <div class="mb-3">
+            <label class="form-label">Confirmar nueva contraseña</label>
+            <input type="password" name="confirmar_password" class="form-control">
+          </div>
+
+          <button class="btn btn-primary w-100">
+            Actualizar Datos
+          </button>
+
+        </form>
+      </div>
+    </div>
   </div>
 
 </div>

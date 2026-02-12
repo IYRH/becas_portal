@@ -1,4 +1,5 @@
 import sqlite3
+from werkzeug.security import generate_password_hash
 
 def crear_base_datos():
     conexion = sqlite3.connect('becas.db')
@@ -31,14 +32,24 @@ def crear_base_datos():
         )
     ''')
 
-    # Tabla de administradores
+    # Tabla de administrador
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS admin (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            usuario TEXT NOT NULL,
-            contraseña_hash TEXT NOT NULL
+            username TEXT NOT NULL UNIQUE,
+            password_hash TEXT NOT NULL
         )
     ''')
+
+    cursor.execute("SELECT COUNT(*) FROM admin")
+    if cursor.fetchone()[0] == 0:
+        password_hash = generate_password_hash("admin123")
+
+        cursor.execute("""
+            INSERT INTO admin (username, password_hash)
+            VALUES (?, ?)
+        """, ("admin", password_hash))
+
 
     # Tabla de convocatorias
     cursor.execute('''
@@ -96,4 +107,4 @@ def crear_base_datos():
     def get_db_connection():
         conn = sqlite3.connect('becas.db')
         conn.row_factory = sqlite3.Row
-    return conn
+        return conn
