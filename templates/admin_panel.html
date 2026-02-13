@@ -323,39 +323,51 @@
                   <button 
                     class="btn btn-sm btn-danger d-flex align-items-center justify-content-center gap-1" 
                     data-bs-toggle="modal" 
-                    data-bs-target="#pdfModal{{ p[0] }}">
+                    data-bs-target="#pdfModalPago{{ p[0] }}">
                     <i class="bi bi-file-earmark-pdf-fill"></i> Ver PDF
                   </button>
 
-                  <!-- Modal de Bootstrap (Responsive) -->
-                  <div class="modal fade" id="pdfModal{{ p[0] }}" tabindex="-1" aria-labelledby="pdfModalLabel{{ p[0] }}" aria-hidden="true">
+                  <!-- Modal de Bootstrap -->
+                  <div class="modal fade" 
+                      id="pdfModalPago{{ p[0] }}" 
+                      tabindex="-1" 
+                      aria-labelledby="pdfModalLabelPago{{ p[0] }}" 
+                      aria-hidden="true">
+
                     <div class="modal-dialog modal-fullscreen-sm-down modal-xl modal-dialog-centered">
                       <div class="modal-content border-0 shadow-lg">
                         
-                        <!-- Encabezado del modal -->
+                        <!-- Encabezado -->
                         <div class="modal-header d-flex flex-wrap justify-content-between align-items-center bg-light border-bottom">
-                          <h5 class="modal-title mb-0" id="pdfModalLabel{{ p[0] }}">Vista previa del PDF</h5>
+                          <h5 class="modal-title mb-0" id="pdfModalLabelPago{{ p[0] }}">
+                            Vista previa del PDF
+                          </h5>
+
                           <div class="d-flex align-items-center gap-2 mt-2 mt-sm-0">
-                            <!-- Botón Descargar -->
+                            <!-- Descargar -->
                             <a href="{{ url_for('static', filename='uploads/pagos/' + p[4]) }}" 
-                              class="btn btn-success btn-sm d-flex align-items-center gap-1" 
+                              class="btn btn-success btn-sm d-flex align-items-center gap-1"
                               download>
                               <i class="bi bi-download"></i> Descargar
                             </a>
-                            <!-- Botón Cerrar -->
-                            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">
+
+                            <!-- Cerrar -->
+                            <button type="button" 
+                                    class="btn btn-outline-secondary btn-sm" 
+                                    data-bs-dismiss="modal">
                               <i class="bi bi-x-lg"></i> Cerrar
                             </button>
                           </div>
                         </div>
 
-                        <!-- Cuerpo del modal -->
+                        <!-- Cuerpo -->
                         <div class="modal-body p-0">
-                          <div class="ratio ratio-16x9">
+                          <div style="height:80vh;">
                             <iframe 
-                              src="{{ url_for('static', filename='uploads/pagos/' + p[4]) }}" 
-                              allowfullscreen 
-                              style="border: none;">
+                              src="{{ url_for('static', filename='uploads/pagos/' + p[4]) }}"
+                              width="100%"
+                              height="100%"
+                              style="border:none;">
                             </iframe>
                           </div>
                         </div>
@@ -363,10 +375,12 @@
                       </div>
                     </div>
                   </div>
+
                 {% else %}
                   <span class="text-muted">No disponible</span>
                 {% endif %}
               </td>
+
               <td>{{ p[5] }}</td>
               <td>{{ p[6] or '' }}</td>
               <td>
