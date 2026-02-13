@@ -38,24 +38,37 @@
         <h5 class="card-title">{{ solicitud[0] }} {{ solicitud[1] }}</h5>
         <p><strong>Carrera:</strong> {{ solicitud[4] }}</p>
         <p><strong>Beca solicitada:</strong> {{ solicitud[5] }}</p>
-        <p><strong>Estatus actual:</strong>
+        <p><strong>Estatus de tu solicitud:</strong>
           {% if solicitud[3] == 'Aprobada' %}
-            <span class="badge bg-success">Aprobada </span><br> <br>
-            <a href="{{ url_for('main.formulario_pago') }}" class="btn btn-primary btn-custom">Formulario Pago</a>
+            <span class="badge bg-success">Aprobada </span>
+            <p class="card-text"><strong>Comentario sobre la solicitud:</strong> {{ solicitud[6] or 'Sin comentarios' }}</p>
+            <a href="{{ url_for('main.formulario_pago') }}" class="btn btn-primary btn-custom">Formulario Pago</a><br><br>  
+            <p><strong>Estatus de tu pago:</strong>
+            {% if pagos[3] == 'Aprobada' %}
+              <span class="badge bg-success">Pago Aprobado</span>
+            {% elif pagos[3] == 'Rechazada' %}
+              <span class="badge bg-danger">Pago Rechazado</span>
+            {% elif pagos[3] == 'En revisión' %}
+              <span class="badge bg-warning text-dark">Pago en revisión</span>
+            {% else %}
+              <span class="badge bg-secondary">Pago Pendiente</span>
+            {% endif %}
+            <p class="card-text"><strong>Comentario sobre el pago:</strong> {{ pagos[4] or 'Sin comentarios' }}</p>
           {% elif solicitud[3] == 'Rechazada' %}
             <span class="badge bg-danger">Rechazada</span>
+            <p class="card-text"><strong>Comentario del administrador:</strong> {{ solicitud[6] or 'Sin comentarios' }}</p>
           {% elif solicitud[3] == 'En revisión' %}
             <span class="badge bg-warning text-dark">En revisión</span>
+            <p class="card-text"><strong>Comentario del administrador:</strong> {{ solicitud[6] or 'Sin comentarios' }}</p>
           {% else %}
             <span class="badge bg-secondary">Recibida</span>
           {% endif %}
-        </p>
-        <p class="card-text"><strong>Comentario del administrador:</strong> {{ solicitud[6] or 'Sin comentarios' }}</p>
-        <p class="text-muted"><small>Registrada el {{ solicitud[7] }}</small></p>
       </div>
     </div>
   {% endif %}
-</div>
+
+          
+
 
 <footer class="bg-primary text-light text-center py-3">
   <small>© 2025 Portal de Becas</small>

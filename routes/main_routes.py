@@ -143,10 +143,14 @@ def resultado():
         cursor = conexion.cursor()
         cursor.execute("SELECT nombre, apellidos, matricula, estatus, carrera, beca,comentario_admin FROM solicitudes WHERE matricula = ? ", (matricula,))
         solicitud = cursor.fetchone()
+
+        cursor.execute("SELECT nombre, apellidos, matricula,estatus, comentario_admin FROM pago WHERE matricula = ? ", (matricula,))
+        pagos = cursor.fetchall()
+        
         conexion.close()
 
         if solicitud:
-            return render_template('resultado.html', solicitud=solicitud)
+            return render_template('resultado.html', solicitud=solicitud, pagos=pagos)
         else:
             flash("No se encontró ninguna solicitud asociada a esa matricula.")
             return redirect(url_for('main.resultado'))
